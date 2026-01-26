@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:50068",
+"RedirectUrl": "",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "D:\\Work\\Event_Booking_and_Management\\Event_Booking_and_Management.Server\\..\\event_booking_and_management.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}

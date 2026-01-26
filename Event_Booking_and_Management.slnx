@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="event_booking_and_management.client/event_booking_and_management.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Event_Booking_and_Management.Server/Event_Booking_and_Management.Server.csproj" />
+</Solution>
