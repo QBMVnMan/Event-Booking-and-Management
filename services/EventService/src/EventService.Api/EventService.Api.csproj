@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <SpaRoot>..\event_booking_and_management.client</SpaRoot>
+    <ImplicitUsings>enable</ImplicitUsings>    <RootNamespace>EventService.Api</RootNamespace>
+    <AssemblyName>EventService.Api</AssemblyName>    <SpaRoot>..\..\..\..\frontend\event-booking-client</SpaRoot>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:50068</SpaProxyServerUrl>
   </PropertyGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\event_booking_and_management.client\event_booking_and_management.client.esproj">
+    <ProjectReference Include="..\..\..\..\frontend\event-booking-client\event_booking_and_management.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

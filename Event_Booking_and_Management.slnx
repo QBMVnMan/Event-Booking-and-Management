@@ -1,7 +1,12 @@
 <Solution>
-  <Project Path="event_booking_and_management.client/event_booking_and_management.client.esproj">
+  <Project Path="frontend/event-booking-client/event_booking_and_management.client.esproj">
     <Build />
     <Deploy />
   </Project>
-  <Project Path="Event_Booking_and_Management.Server/Event_Booking_and_Management.Server.csproj" />
+  <Project Path="services/EventService/src/EventService.Api/EventService.Api.csproj" />
+  <Project Path="services/UserService/src/UserService.Api/UserService.Api.csproj" />
+  <Project Path="services/BookingService/src/BookingService.Api/BookingService.Api.csproj" />
+  <Project Path="services/PaymentService/src/PaymentService.Api/PaymentService.Api.csproj" />
+  <Project Path="api-gateway/src/ApiGateway/ApiGateway.csproj" />
+  <Project Path="shared/Contracts/Contracts.csproj" />
 </Solution>
