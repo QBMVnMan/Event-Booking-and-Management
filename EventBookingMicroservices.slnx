@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="services/EventService/src/EventService.Api/EventService.Api.csproj" />
+  <Project Path="services/UserService/src/UserService.Api/UserService.Api.csproj" />
+  <Project Path="services/BookingService/src/BookingService.Api/BookingService.Api.csproj" />
+  <Project Path="services/PaymentService/src/PaymentService.Api/PaymentService.Api.csproj" />
+  <Project Path="api-gateway/src/ApiGateway/ApiGateway.csproj" />
+  <Project Path="shared/Contracts/Contracts.csproj" />
+</Solution>
