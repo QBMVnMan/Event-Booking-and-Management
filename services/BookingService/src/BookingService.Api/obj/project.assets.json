@@ -32,6 +32,16 @@
             "related": ".pdb"
           }
         }
+      },
+      "Contracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Contracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Contracts.dll": {}
+        }
       }
     }
   },
@@ -68,10 +78,16 @@
         "microsoft.openapi.2.0.0.nupkg.sha512",
         "microsoft.openapi.nuspec"
       ]
+    },
+    "Contracts/1.0.0": {
+      "type": "project",
+      "path": "../../../../shared/Contracts/Contracts.csproj",
+      "msbuildProject": "../../../../shared/Contracts/Contracts.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "Contracts >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 10.0.0"
     ]
   },
@@ -99,7 +115,11 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/workspaces/Event-Booking-and-Management/shared/Contracts/Contracts.csproj": {
+              "projectPath": "/workspaces/Event-Booking-and-Management/shared/Contracts/Contracts.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

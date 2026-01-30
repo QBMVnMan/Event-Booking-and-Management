@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "8wqONykFazg=",
+  "dgSpecHash": "8xYHMt61fGQ=",
   "success": true,
-  "projectFilePath": "D:\\Work\\Event_Booking_and_Management\\Event_Booking_and_Management.Server\\Event_Booking_and_Management.Server.csproj",
+  "projectFilePath": "/workspaces/Event-Booking-and-Management/services/EventService/src/EventService.Api/EventService.Api.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.12\\microsoft.aspnetcore.openapi.9.0.12.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\9.0.12\\microsoft.aspnetcore.spaproxy.9.0.12.nupkg.sha512",
-    "C:\\Users\\HP\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+    "/home/codespace/.nuget/packages/microsoft.aspnetcore.openapi/9.0.12/microsoft.aspnetcore.openapi.9.0.12.nupkg.sha512",
+    "/home/codespace/.nuget/packages/microsoft.aspnetcore.spaproxy/9.0.12/microsoft.aspnetcore.spaproxy.9.0.12.nupkg.sha512",
+    "/home/codespace/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
   ],
   "logs": []
 }
