@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway/src/ApiGateway
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - event-service
+      - user-service
+
+  event-service:
+    build:
+      context: ./services/EventService/src/EventService.Api
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+
+  user-service:
+    build:
+      context: ./services/UserService/src/UserService.Api
+      dockerfile: Dockerfile
+    ports:
+      - "5002:80"
+
+  booking-service:
+    build:
+      context: ./services/BookingService/src/BookingService.Api
+      dockerfile: Dockerfile
+    ports:
+      - "5003:80"
+
+  payment-service:
+    build:
+      context: ./services/PaymentService/src/PaymentService.Api
+      dockerfile: Dockerfile
+    ports:
+      - "5004:80"
