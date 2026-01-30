@@ -1,8 +1,4 @@
 <Solution>
-  <Project Path="frontend/event-booking-client/event_booking_and_management.client.esproj">
-    <Build />
-    <Deploy />
-  </Project>
   <Project Path="services/EventService/src/EventService.Api/EventService.Api.csproj" />
   <Project Path="services/UserService/src/UserService.Api/UserService.Api.csproj" />
   <Project Path="services/BookingService/src/BookingService.Api/BookingService.Api.csproj" />
