@@ -19,3 +19,25 @@ Event Booking and Management Platform
 - Booking confirmation screen
 - Admin panel for managing events (CRUD)
 - Responsive design
+## Monorepo structure (refactor-to-microservices)
+
+This repository has been reorganized into a microservices-style monorepo. Key folders:
+
+- `services/` - backend microservices (EventService, UserService, BookingService, PaymentService)
+- `api-gateway/` - API Gateway project (place for Ocelot / YARP)
+- `shared/` - shared libraries and contracts
+- `frontend/` - Angular frontend (`event-booking-client`)
+- `docker-compose.yml` - run all services locally via Docker
+
+## Quick start (local, docker)
+
+1. Build and run services locally with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+2. API Gateway: http://localhost:5000
+3. EventService: http://localhost:5001
+
+Note: this is an initial refactor; services are skeleton projects. Replace and extract code from the old monolith into the service folders incrementally.
