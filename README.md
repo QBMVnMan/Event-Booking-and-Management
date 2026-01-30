@@ -43,4 +43,3 @@ Notes:
   - `dotnet run --project services/<Name>/src/<Name>.Api`
 - Frontend: `cd frontend/event-booking-client && npm ci && npm start`
 
-If you'd like, I can open a clean PR with this simplified README and merge it. ✅
