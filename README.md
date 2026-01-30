@@ -143,6 +143,35 @@ curl http://localhost:5001/WeatherForecast
 
 ---
 
+## Authentication (local dev flow) 🔐
+
+A minimal JWT auth flow is implemented for local development:
+
+1. Register a user (example):
+
+```bash
+curl -X POST http://localhost:5002/api/auth/register -H "Content-Type: application/json" -d '{"username":"alice","password":"password"}'
+```
+
+2. Login to get a token:
+
+```bash
+curl -X POST http://localhost:5002/api/auth/login -H "Content-Type: application/json" -d '{"username":"alice","password":"password"}'
+# Response: { "accessToken": "<token>", "tokenType": "Bearer" }
+```
+
+3. Call a protected gateway endpoint:
+
+```bash
+curl http://localhost:5000/api/protected -H "Authorization: Bearer <token>"
+```
+
+Notes:
+- The dev JWT signing key is present in `appsettings.Development.json` for `UserService` and `ApiGateway`. Replace with a secure secret (env var or secret store) in production.
+- This is a minimal, demo-friendly implementation. For production, use a full-featured identity provider (OIDC) or a hardened token service.
+
+---
+
 ## Tests and code quality ✅
 
 - Run backend tests (per-project):

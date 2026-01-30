@@ -1,0 +1,19 @@
+# Ignore build outputs
+**/bin/
+**/obj/
+*.user
+*.suo
+.vs/
+
+# Node
+node_modules/
+frontend/event-booking-client/dist/
+
+# Local secrets
+.env
+
+# Docker
+**/.dockerignore
+
+# Logs
+*.log
