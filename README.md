@@ -22,7 +22,8 @@ git clone https://github.com/QBMVnMan/Event-Booking-and-Management.git
 # or: git clone git@github.com:QBMVnMan/Event-Booking-and-Management.git   (SSH)
 
 cd Event-Booking-and-Management
-
+ 
+# Remember to open Docker Desktop first
 docker compose up --build -d
 docker compose ps
 ```
