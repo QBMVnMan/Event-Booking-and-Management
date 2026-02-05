@@ -1,7 +1,7 @@
 services:
   api-gateway:
     build:
-      context: .                           # ← root of the repo
+      context: .                           # Root of repo → includes shared/
       dockerfile: api-gateway/src/ApiGateway/Dockerfile
     ports:
       - "5000:80"
