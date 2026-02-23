@@ -13,7 +13,7 @@ COPY ["services/BookingService/src/BookingService.Api/BookingService.Api.csproj"
 
 # ── 2. Restore everything ──
 RUN dotnet restore "shared/Contracts/Contracts.csproj"
-RUN dotnet restore "services/PaymentService/src/PaymentService.Api/PaymentService.Api.csproj"
+RUN dotnet restore "services/BookingService/src/BookingService.Api/BookingService.Api.csproj"
 
 # ── 3. Copy the rest of the source code ──
 COPY . .

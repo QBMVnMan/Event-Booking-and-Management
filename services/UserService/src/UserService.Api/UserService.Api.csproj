@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\shared\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\Contracts\Contracts.csproj" Condition="'$(Configuration)' != 'Docker'"/>
   </ItemGroup>
 
 </Project>

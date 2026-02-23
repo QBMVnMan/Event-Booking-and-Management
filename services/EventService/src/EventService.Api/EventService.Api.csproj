@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\frontend\event-booking-client\event_booking_and_management.client.esproj">
+    <ProjectReference Include="..\..\..\..\frontend\event-booking-client\event_booking_and_management.client.esproj" Condition="'$(Configuration)' != 'Docker'">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\shared\Contracts\Contracts.csproj" />
