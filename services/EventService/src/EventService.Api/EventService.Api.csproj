@@ -17,9 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\frontend\event-booking-client\event_booking_and_management.client.esproj" Condition="'$(Configuration)' != 'Docker'">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
+    <!-- Frontend project reference removed to avoid MSBuild attempting to load VisualStudio JavaScript SDK
+         during automated/CI/docker builds. The frontend is built independently. -->
     <ProjectReference Include="..\..\..\..\shared\Contracts\Contracts.csproj" />
   </ItemGroup>
 
