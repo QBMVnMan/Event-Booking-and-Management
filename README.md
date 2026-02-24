@@ -111,6 +111,19 @@ Frontend as above.
 
 - **Frontend → Backend**: ensure the Angular app points to `http://localhost:5000` (check `environment.ts` or proxy config).
 
+## Frontend build verification
+
+I verified the Angular app builds cleanly in this repository. To reproduce locally or in CI:
+
+```bash
+cd frontend/event-booking-client
+npm ci
+npm run build -- --configuration production
+# output will be in ./dist/event_booking_and_management.client
+```
+
+Note: the backend solutions no longer contain the frontend `.esproj` to avoid MSBuild attempting to load Visual Studio-only SDKs during `dotnet build` in CI or Docker. Build and deploy the frontend separately (Node/ng build or the provided Dockerfile if you add one).
+
 ## Troubleshooting (quick)
 
 - Nothing on port 5000? → `docker compose logs -f gateway`  
