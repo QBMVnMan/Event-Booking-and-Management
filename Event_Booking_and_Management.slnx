@@ -1,8 +1,7 @@
 <Solution>
-  <Project Path="frontend/event-booking-client/event_booking_and_management.client.esproj">
-    <Build />
-    <Deploy />
-  </Project>
+  <!-- Frontend Angular project removed from this solution to avoid MSBuild attempting
+       to resolve VisualStudio-only SDKs during `dotnet build`. Build the frontend
+       separately with Node/NPM or include it in a different workflow. -->
   <Project Path="services/EventService/src/EventService.Api/EventService.Api.csproj" />
   <Project Path="services/UserService/src/UserService.Api/UserService.Api.csproj" />
   <Project Path="services/BookingService/src/BookingService.Api/BookingService.Api.csproj" />
