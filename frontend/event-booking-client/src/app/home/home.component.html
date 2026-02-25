@@ -1,0 +1,40 @@
+<!-- Simple hero (no PrimeNG) -->
+<section class="hero">
+  <div *ngIf="featuredEvents?.length; else noFeatured" class="featured-container">
+    <div *ngFor="let ev of featuredEvents" class="featured-item" (click)="onBuy(ev)">
+      <div class="featured-bg" [style.backgroundImage]="'url(' + (ev.poster || '') + ')'">
+        <div class="overlay">
+          <h2>{{ev.name}}</h2>
+          <p>{{ev.date | date:'dd/MM/yyyy HH:mm'}} • {{ev.venue}}</p>
+          <button (click)="onBuy(ev)">Mua vé ngay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noFeatured>
+    <p class="text-center">No featured events</p>
+  </ng-template>
+</section>
+
+<!-- Categories -->
+<section class="categories">
+  <div class="category-list">
+    <button *ngFor="let cat of categories" (click)="selectCategory(cat)" [class.active]="selectedCategory===cat">{{cat}}</button>
+  </div>
+</section>
+
+<!-- Events Grid -->
+<section class="events">
+  <h2>Sự kiện nổi bật</h2>
+  <div class="events-grid">
+    <div class="event-card" *ngFor="let event of events">
+      <img [src]="event.poster" alt="{{event.name}}" />
+      <div class="info">
+        <h3>{{event.name}}</h3>
+        <p>{{event.date | date:'dd/MM/yyyy'}} • {{event.venue}}</p>
+        <p class="price">Từ {{event.minPrice | number}} ₫</p>
+        <button (click)="onBuy(event)">Mua vé</button>
+      </div>
+    </div>
+  </div>
+</section>

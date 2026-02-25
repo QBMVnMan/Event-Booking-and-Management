@@ -1,22 +1,21 @@
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EventCardComponent } from './event-card.component';
-import { EventDetailComponent } from './event-detail.component';
+import { HomeComponent } from './home/home.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule, FormsModule,
+    BrowserModule,
     AppRoutingModule,
-    EventCardComponent,
-    EventDetailComponent
+    HttpClientModule,
+    FormsModule,
+    HomeComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

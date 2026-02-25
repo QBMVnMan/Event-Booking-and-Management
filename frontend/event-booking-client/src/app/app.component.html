@@ -1,51 +1,36 @@
-﻿<!-- Header / Navbar -->
-<header>
-  <nav>
-    <div class="logo">YourEventBooking</div>
-    <input type="text" placeholder="Tìm kiếm sự kiện..." [(ngModel)]="searchTerm" (keyup.enter)="loadEvents(selectedCategory, searchTerm)" />
-    <div class="actions">
-      <button>Tạo sự kiện</button>
-      <button>Vé của tôi</button>
-      <button (click)="login()">Đăng nhập</button>
-      <select [(ngModel)]="lang">
-        <option>Tiếng Việt</option>
-        <option>English</option>
-      </select>
-    </div>
-  </nav>
-</header>
+﻿<div class="min-h-screen flex flex-col bg-gray-50">
 
-<!-- Hero Carousel -->
-<section class="hero">
-  <div class="hero-wrap">
-    <div class="hero-item" *ngFor="let featured of featuredEvents">
-      <img [src]="featured.poster || ''" alt="{{featured.name}}" />
-      <div class="overlay">
-        <h1>{{featured.name}}</h1>
-        <p>{{featured.date | date}} - {{featured.venue}}</p>
-        <button (click)="buyTicket(featured.id)">Mua vé ngay</button>
+  <!-- Header / Navbar -->
+  <header class="bg-white shadow">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-red-600">EventBooking</div>
+
+      <div class="flex-1 max-w-xl mx-8">
+        <span class="p-input-icon-left w-full">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Tìm kiếm sự kiện..." class="w-full" />
+        </span>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button pButton label="Tạo sự kiện" class="p-button-outlined" icon="pi pi-plus"></button>
+        <button pButton label="Vé của tôi" class="p-button-outlined" icon="pi pi-ticket"></button>
+        <button pButton label="Đăng nhập" class="p-button-raised"></button>
       </div>
     </div>
-  </div>
-</section>
+  </header>
 
-<!-- Categories -->
-<section class="categories">
-  <button *ngFor="let cat of categories" (click)="selectCategory(cat)" [class.active]="selectedCategory === cat">
-    {{cat}}
-  </button>
-</section>
+  <!-- Main Content -->
+  <main class="flex-grow">
+    <app-home></app-home>
+  </main>
 
-<!-- Event Grid -->
-<section class="events">
-  <h2>Sự kiện nổi bật</h2>
-  <div class="grid">
-    <app-event-card *ngFor="let event of events" [event]="event" (buy)="buyTicket($event)"></app-event-card>
-  </div>
-</section>
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p>Hotline: 1900 1234 | support&#64;eventbooking.vn</p>
+      <p class="mt-2">© 2026 EventBooking - All rights reserved</p>
+    </div>
+  </footer>
 
-<footer>
-  <!-- Hotline, email, social, copyright -->
-</footer>
-
-<router-outlet></router-outlet>
+</div>
