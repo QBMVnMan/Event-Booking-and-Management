@@ -19,7 +19,7 @@ export class EventDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       // For now call the events endpoint and find the id (or implement getById endpoint)
-      this.eventService.getEvents().subscribe(list => {
+      this.eventService.getEvents().subscribe((list: EventItem[]) => {
         this.event = list.find(e => e.id === id);
       });
     }

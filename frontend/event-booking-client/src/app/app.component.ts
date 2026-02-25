@@ -37,15 +37,15 @@ export class AppComponent implements OnInit {
 
   loadFeatured() {
     this.eventService.getFeatured().subscribe({
-      next: (res) => this.featuredEvents = res,
-      error: (err) => console.error('Failed to load featured', err)
+      next: (res: EventItem[]) => this.featuredEvents = res,
+      error: (err: any) => console.error('Failed to load featured', err)
     });
   }
 
   loadEvents(category?: string, query?: string) {
     this.eventService.getEvents(category, query).subscribe({
-      next: (res) => this.events = res,
-      error: (err) => console.error('Failed to load events', err)
+      next: (res: EventItem[]) => this.events = res,
+      error: (err: any) => console.error('Failed to load events', err)
     });
   }
 
