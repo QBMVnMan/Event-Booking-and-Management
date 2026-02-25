@@ -1,24 +1,51 @@
-﻿<h1 id="tableLabel">Weather forecast</h1>
+﻿<!-- Header / Navbar -->
+<header>
+  <nav>
+    <div class="logo">YourEventBooking</div>
+    <input type="text" placeholder="Tìm kiếm sự kiện..." [(ngModel)]="searchTerm" (keyup.enter)="loadEvents(selectedCategory, searchTerm)" />
+    <div class="actions">
+      <button>Tạo sự kiện</button>
+      <button>Vé của tôi</button>
+      <button (click)="login()">Đăng nhập</button>
+      <select [(ngModel)]="lang">
+        <option>Tiếng Việt</option>
+        <option>English</option>
+      </select>
+    </div>
+  </nav>
+</header>
 
-<p>This component demonstrates fetching data from the server.</p>
+<!-- Hero Carousel -->
+<section class="hero">
+  <div class="hero-wrap">
+    <div class="hero-item" *ngFor="let featured of featuredEvents">
+      <img [src]="featured.poster || ''" alt="{{featured.name}}" />
+      <div class="overlay">
+        <h1>{{featured.name}}</h1>
+        <p>{{featured.date | date}} - {{featured.venue}}</p>
+        <button (click)="buyTicket(featured.id)">Mua vé ngay</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-<p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
+<!-- Categories -->
+<section class="categories">
+  <button *ngFor="let cat of categories" (click)="selectCategory(cat)" [class.active]="selectedCategory === cat">
+    {{cat}}
+  </button>
+</section>
 
-<table *ngIf="forecasts">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let forecast of forecasts">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
-            <td>{{ forecast.summary }}</td>
-        </tr>
-    </tbody>
-</table>
+<!-- Event Grid -->
+<section class="events">
+  <h2>Sự kiện nổi bật</h2>
+  <div class="grid">
+    <app-event-card *ngFor="let event of events" [event]="event" (buy)="buyTicket($event)"></app-event-card>
+  </div>
+</section>
+
+<footer>
+  <!-- Hotline, email, social, copyright -->
+</footer>
+
+<router-outlet></router-outlet>

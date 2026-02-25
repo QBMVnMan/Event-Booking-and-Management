@@ -1,0 +1,9 @@
+<div class="card">
+  <img *ngIf="event?.poster" [src]="event.poster" alt="{{event.name}}" />
+  <div class="body">
+    <h3>{{event?.name}}</h3>
+    <p>{{event?.date | date:'dd/MM/yyyy'}} • {{event?.venue}}</p>
+    <p class="price">Từ {{event?.minPrice | currency:'VND'}}</p>
+    <button (click)="onBuy()">Mua vé</button>
+  </div>
+</div>

@@ -1,11 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { EventService } from './event.service';
 
-interface WeatherForecast {
+interface EventItem {
+  id: string;
+  name: string;
   date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  venue?: string;
+  poster?: string;
+  minPrice?: number;
 }
 
 @Component({
@@ -15,24 +18,48 @@ interface WeatherForecast {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+  title = 'Ticketbox-style Demo';
 
-  constructor(private http: HttpClient) {}
+  featuredEvents: EventItem[] = [];
+  events: EventItem[] = [];
+  categories = ['Nhạc sống','Hội thảo','Thể thao','Phim','Kịch','Voucher'];
+  selectedCategory = '';
+  lang = 'Tiếng Việt';
+
+  searchTerm = '';
+
+  constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit() {
-    this.getForecasts();
+    this.loadFeatured();
+    this.loadEvents();
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  loadFeatured() {
+    this.eventService.getFeatured().subscribe({
+      next: (res) => this.featuredEvents = res,
+      error: (err) => console.error('Failed to load featured', err)
+    });
   }
 
-  title = 'event_booking_and_management.client';
+  loadEvents(category?: string, query?: string) {
+    this.eventService.getEvents(category, query).subscribe({
+      next: (res) => this.events = res,
+      error: (err) => console.error('Failed to load events', err)
+    });
+  }
+
+  selectCategory(cat: string) {
+    this.selectedCategory = cat;
+    this.loadEvents(cat, this.searchTerm);
+  }
+
+  buyTicket(id: string) {
+    // navigate to event detail / booking
+    this.router.navigate(['/events', id]);
+  }
+
+  login() {
+    alert('Đăng nhập (tạm)');
+  }
 }
