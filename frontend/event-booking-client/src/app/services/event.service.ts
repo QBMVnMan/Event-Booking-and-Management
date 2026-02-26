@@ -8,16 +8,17 @@ import { environment } from '../../environments/environment';
 })
 export class EventService {
 
-  private apiUrl = environment.apiUrl + '/api/events';
+  // Use a relative path so the dev server proxy (src/proxy.conf.js) forwards requests.
+  private base = '/api/events';
 
   constructor(private http: HttpClient) { }
 
   getFeaturedEvents(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/featured`);
+    return this.http.get<any[]>(`${this.base}/featured`);
   }
 
   getEvents(query = ''): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}${query}`);
+    return this.http.get<any[]>(`${this.base}${query}`);
   }
 
 }
