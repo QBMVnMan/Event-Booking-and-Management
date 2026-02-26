@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventService } from '../services/event.service';
+import { EventService } from '../event.service';
 
 @Component({
   selector: 'app-home',
@@ -29,20 +29,20 @@ export class HomeComponent implements OnInit {
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
-    this.loadFeaturedEvents();
+    this.loadFeatured();
     this.loadEvents();
   }
 
-  loadFeaturedEvents() {
-    this.eventService.getFeaturedEvents().subscribe({
+  loadFeatured() {
+    this.eventService.getFeatured().subscribe({
       next: (data) => this.featuredEvents = data,
       error: (err) => console.error('Featured events error', err)
     });
   }
 
   loadEvents() {
-    const cat = this.selectedCategory ? `?category=${encodeURIComponent(this.selectedCategory)}` : '';
-    this.eventService.getEvents(cat).subscribe({
+    const category = this.selectedCategory ? this.selectedCategory : undefined;
+    this.eventService.getEvents(category).subscribe({
       next: (data) => this.events = data,
       error: (err) => console.error('Events error', err)
     });
