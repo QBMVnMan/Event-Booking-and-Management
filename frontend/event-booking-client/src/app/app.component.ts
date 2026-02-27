@@ -59,6 +59,10 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/events', id]);
   }
 
+search() {
+    this.loadEvents(this.selectedCategory, this.searchTerm);
+  }
+
   login() {
     alert('Đăng nhập (tạm)');
   }

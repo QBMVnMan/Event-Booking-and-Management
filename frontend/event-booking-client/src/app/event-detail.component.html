@@ -1,8 +1,8 @@
 <div *ngIf="event; else notfound" class="detail">
-  <h2>{{event?.name}}</h2>
-  <p>{{event?.date | date:'fullDate'}} • {{event?.venue}}</p>
-  <img *ngIf="event?.poster" [src]="event?.poster" alt="{{event?.name}}" />
-  <p class="price">Từ {{event?.minPrice | currency:'VND'}}</p>
+  <h2>{{event.name}}</h2>
+  <p>{{event.date | date:'fullDate'}} • {{event.venue}}</p>
+  <img *ngIf="event.poster" [src]="event.poster" alt="{{event.name}}" />
+  <p class="price">Từ {{event.minPrice | currency:'VND'}}</p>
   <button>Tiếp tục mua vé</button>
 </div>
 <ng-template #notfound>
