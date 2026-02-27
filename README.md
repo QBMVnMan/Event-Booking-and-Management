@@ -74,7 +74,7 @@ npm start
 
 → Open http://localhost:4200
 
-(Frontend should call the gateway at http://localhost:5000 — make sure CORS allows it.)
+(Frontend should call the gateway at `http://localhost:5000` — make sure CORS allows it.  **Development uses the dev-server proxy (port 5000) so no extra CORS configuration is needed when running with `npm start`.)
 
 ## Run without Docker (individual services)
 

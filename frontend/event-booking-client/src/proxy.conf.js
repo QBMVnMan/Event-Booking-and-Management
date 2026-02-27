@@ -13,7 +13,8 @@ const PROXY_CONFIG = [
   },
   {
     context: ["/api"],
-    target: 'http://localhost:8080',
+    // point at the gateway; the default Docker compose gateway port is 5000
+    target: 'http://localhost:5000',
     secure: false,
     changeOrigin: true,
     logLevel: 'debug'
