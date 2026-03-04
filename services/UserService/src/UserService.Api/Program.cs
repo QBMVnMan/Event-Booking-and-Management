@@ -6,6 +6,8 @@ using UserService.Api.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Controllers are used for the user list endpoint and others.
+builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // CORS - only allow local frontend by default
@@ -57,6 +59,9 @@ app.UseHttpsRedirection();
 app.UseCors("frontend");
 app.UseAuthentication();
 app.UseAuthorization();
+
+// map controller routes (eg. /api/users)
+app.MapControllers();
 
 var summaries = new[]
 {
