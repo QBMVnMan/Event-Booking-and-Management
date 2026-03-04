@@ -122,19 +122,19 @@
     ]
   },
   "packageFolders": {
-    "/home/codespace/.nuget/packages/": {}
+    "C:\\Users\\HP\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/workspaces/Event-Booking-and-Management/services/EventService/src/EventService.Api/EventService.Api.csproj",
+      "projectUniqueName": "D:\\Work\\Event-Booking-and-Management\\services\\EventService\\src\\EventService.Api\\EventService.Api.csproj",
       "projectName": "EventService.Api",
-      "projectPath": "/workspaces/Event-Booking-and-Management/services/EventService/src/EventService.Api/EventService.Api.csproj",
-      "packagesPath": "/home/codespace/.nuget/packages/",
-      "outputPath": "/workspaces/Event-Booking-and-Management/services/EventService/src/EventService.Api/obj/",
+      "projectPath": "D:\\Work\\Event-Booking-and-Management\\services\\EventService\\src\\EventService.Api\\EventService.Api.csproj",
+      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+      "outputPath": "D:\\Work\\Event-Booking-and-Management\\services\\EventService\\src\\EventService.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/codespace/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -146,8 +146,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "/workspaces/Event-Booking-and-Management/shared/Contracts/Contracts.csproj": {
-              "projectPath": "/workspaces/Event-Booking-and-Management/shared/Contracts/Contracts.csproj"
+            "D:\\Work\\Event-Booking-and-Management\\shared\\Contracts\\Contracts.csproj": {
+              "projectPath": "D:\\Work\\Event-Booking-and-Management\\shared\\Contracts\\Contracts.csproj"
             }
           }
         }
@@ -196,7 +196,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

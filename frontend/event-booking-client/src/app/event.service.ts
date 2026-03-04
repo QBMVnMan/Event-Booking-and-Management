@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export interface EventItem {
   id: string;
@@ -18,16 +19,28 @@ export class EventService {
 
   constructor(private http: HttpClient) {}
 
+  private handleError<T>(operation = 'operation', fallback: T) {
+    return (err: any): Observable<T> => {
+      // proxy will log connection errors before the HTTP client even sees them,
+      // but we still surface a warning and fall back to in-memory data so the
+      // UI doesn't completely break when the backend isn't running.
+      console.warn(`EventService.${operation} failed, returning fallback data:`, err?.message || err);
+      return of(fallback);
+    };
+  }
+
   getFeatured(): Observable<EventItem[]> {
     // if backend has /featured endpoint
-    return this.http.get<EventItem[]>(`${this.base}/featured`);
+    return this.http.get<EventItem[]>(`${this.base}/featured`)
+      .pipe(catchError(this.handleError('getFeatured', [])));
   }
 
   getEvents(category?: string, query?: string): Observable<EventItem[]> {
     let params = new HttpParams();
     if (category) params = params.set('category', category);
     if (query) params = params.set('q', query);
-    return this.http.get<EventItem[]>(this.base, { params });
+    return this.http.get<EventItem[]>(this.base, { params })
+      .pipe(catchError(this.handleError('getEvents', [])));
   }
 
   // Fallback local sample (not used by default)

@@ -78,23 +78,31 @@ npm start
 
 ## Run without Docker (individual services)
 
-Build whole solution once:
+
+Build the whole solution once:
 
 ```bash
 dotnet build EventBookingMicroservices.slnx
 ```
 
-Run services separately (from root):
+**Important:** By default, the .NET launch profiles use random ports (e.g. 5083, 5238, etc.).
+For the frontend proxy and microservices to work together, you must run each service on the correct port using `--urls`:
 
 ```bash
-# Terminal 1 — UserService
-dotnet run --project services/UserService/src/UserService.Api
+# Terminal 1 — UserService (port 5002)
+dotnet run --project services/UserService/src/UserService.Api --urls http://localhost:5002
 
-# Terminal 2 — EventService
-dotnet run --project services/EventService/src/EventService.Api
+# Terminal 2 — EventService (port 5001)
+dotnet run --project services/EventService/src/EventService.Api --urls http://localhost:5001
 
-# Terminal 3 — Gateway
-dotnet run --project api-gateway/src/ApiGateway
+# Terminal 3 — BookingService (port 5003)
+dotnet run --project services/BookingService/src/BookingService.Api --urls http://localhost:5003
+
+# Terminal 4 — PaymentService (port 5004)
+dotnet run --project services/PaymentService/src/PaymentService.Api --urls http://localhost:5004
+
+# Terminal 5 — API Gateway (port 5000)
+dotnet run --project api-gateway/src/ApiGateway --urls http://localhost:5000
 ```
 
 Frontend as above.
@@ -126,10 +134,15 @@ Note: the backend solutions no longer contain the frontend `.esproj` to avoid MS
 
 ## Troubleshooting (quick)
 
-- Nothing on port 5000? → `docker compose logs -f gateway`  
-- Port conflict? → stop other apps or change ports in `docker-compose.yml`  
-- 401 / CORS? → check gateway CORS policy + token header forwarding  
-- Frontend blank / API errors? → browser console + network tab
+
+- Nothing on port 5000? → Make sure you started the API Gateway with `--urls http://localhost:5000`.
+- Nothing on port 5001/5002/5003/5004? → Start each service with the correct `--urls` as above.
+- Port conflict? → Stop other apps or change ports in `docker-compose.yml` and your run commands.
+- 401 / CORS? → Check gateway CORS policy + token header forwarding.
+- Frontend blank / API errors? → Browser console + network tab.
+- **`ECONNREFUSED` in dev‑server log?** → The proxy is trying to reach `http://localhost:5000` (the API gateway). Make sure the gateway/service process is running on the correct port (see above) or adjust `API_GATEWAY_PORT` / `environment.apiUrl` accordingly. The Angular client now falls back to sample data when the backend isn’t available.
+
+**Tip:** You can override the proxy target for `/api` by setting the `API_GATEWAY_PORT` environment variable before running `npm start` in the frontend.
 
 Feel free to open issues if something breaks.
 
