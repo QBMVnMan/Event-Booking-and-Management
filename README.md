@@ -67,14 +67,22 @@ curl http://localhost:5000/api/protected \
 
 ```bash
 cd frontend/event-booking-client
-npm ci
-npm start
-# or: ng serve
+npm ci           # install deps the first time or when package.json changes
+npm start         # starts the Angular dev server over HTTPS
+# or: ng serve --ssl --proxy-config proxy.conf.js
 ```
 
-→ Open http://localhost:4200
+The CLI chooses a high port by default (`https://127.0.0.1:50068/` in our setup).  Look for
+`Local:` line in the console after the app compiles and open that URL in your browser.
 
-(Frontend should call the gateway at `http://localhost:5000` — make sure CORS allows it.  **Development uses the dev-server proxy (port 5000) so no extra CORS configuration is needed when running with `npm start`.)
+All `/api` requests from the SPA are forwarded to the API gateway on port 5000 via
+`proxy.conf.js`. No additional CORS settings are required for local development.
+
+>The frontend run port is unrelated to the backend ports; the proxy target is
+controlled by `API_GATEWAY_PORT` (defaults to `5000`).
+
+(For production builds you would host the compiled output behind the gateway or
+another web server; see the `frontend/` README for build details.)
 
 ## Run without Docker (individual services)
 
