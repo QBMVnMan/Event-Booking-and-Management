@@ -1,10 +1,10 @@
-# Event Booking and Management — Quick Start 🚀
+# Event Booking and Management 
+Modern microservices-based event ticketing platform inspired by **Ticketbox.vn**.
 
-Minimal microservices monorepo:  
-- .NET 10 backend services  
-- API Gateway  
-- Shared Contracts  
-- Angular frontend  
+- .NET 10 microservices (Event, User, Booking, Payment, API Gateway)
+- Angular 19 frontend with Ticketbox-style UI
+- PostgreSQL persistent database
+- Docker-first development & deployment
 
 Current status: basic auth + skeleton structure working. Core booking logic in progress.
 
@@ -35,8 +35,37 @@ Wait ~30–60 seconds for services to be ready.
 - API Gateway     → http://localhost:5000  
 - EventService    → http://localhost:5001  
 - UserService     → http://localhost:5002  
+- PostgreSQL → localhost:5432 (user: postgres, password: Postgres123!, db: eventbooking)
 
 **Use the gateway (5000) for all client calls.**
+
+## Database Setup (PostgreSQL)
+The project now uses persistent PostgreSQL. Data survives container restarts.
+
+- Automatic (Docker)
+PostgreSQL is included in docker-compose.yml. All services automatically connect to it.
+
+- Manual Connection String (if needed)
+Each service uses this connection string by default:
+```bash
+"ConnectionStrings": {
+  "DefaultConnection": "Host=postgres;Port=5432;Database=eventbooking;Username=postgres;Password=Postgres123!;Include Error Detail=true"
+}
+```
+For local PostgreSQL (outside Docker), change Host=postgres to Host=localhost.
+
+## Running Migrations (First Time Only)
+```bash
+# Run once after first start
+docker exec -it event-booking-and-management-user-service dotnet ef database update
+docker exec -it event-booking-and-management-event-service dotnet ef database update
+docker exec -it event-booking-and-management-booking-service dotnet ef database update
+docker exec -it event-booking-and-management-payment-service dotnet ef database update
+```
+Or run locally in each service folder:
+```bash
+cd services/UserService/src/UserService.Api && dotnet ef database update
+```
 
 ## Local Dev Auth Demo (via gateway)
 
@@ -140,8 +169,9 @@ npm run build -- --configuration production
 
 Note: the backend solutions no longer contain the frontend `.esproj` to avoid MSBuild attempting to load Visual Studio-only SDKs during `dotnet build` in CI or Docker. Build and deploy the frontend separately (Node/ng build or the provided Dockerfile if you add one).
 
-## Troubleshooting (quick)
 
+
+## Troubleshooting (quick)
 
 - Nothing on port 5000? → Make sure you started the API Gateway with `--urls http://localhost:5000`.
 - Nothing on port 5001/5002/5003/5004? → Start each service with the correct `--urls` as above.
