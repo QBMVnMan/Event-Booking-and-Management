@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Api.Controllers
 {
@@ -6,30 +7,21 @@ namespace UserService.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private static readonly List<UserItem> Users = new()
+        private readonly UserDbContext _context;
+
+        public UsersController(UserDbContext context)
         {
-            new UserItem { Id = "1", Username = "alice", Email = "alice@example.com", FullName = "Nguyễn Thị Alice" },
-            new UserItem { Id = "2", Username = "bob", Email = "bob@example.com", FullName = "Trần Văn Bob" },
-            new UserItem { Id = "3", Username = "linh", Email = "linh@example.com", FullName = "Lê Thị Linh" },
-            new UserItem { Id = "4", Username = "quang", Email = "quang@example.com", FullName = "Phạm Quang" }
-        };
+            _context = context;
+        }
 
         [HttpGet]
-        public IActionResult Get() => Ok(Users);
+        public async Task<IActionResult> Get() => Ok(await _context.Users.ToListAsync());
 
         [HttpGet("{id}")]
-        public IActionResult GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var user = Users.FirstOrDefault(u => u.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             return user == null ? NotFound() : Ok(user);
         }
-    }
-
-    public class UserItem
-    {
-        public string Id { get; set; } = string.Empty;
-        public string Username { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string? FullName { get; set; }
     }
 }
