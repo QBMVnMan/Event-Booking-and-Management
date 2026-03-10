@@ -14,6 +14,39 @@ Current status: basic auth + skeleton structure working. Core booking logic in p
 - Docker & Docker Compose  
 - .NET 10 SDK (optional — local builds only)  
 - Node.js 18+ + npm (frontend)
+- **PostgreSQL** (for database — either local install or via Docker)
+
+## Database Setup
+
+The app uses PostgreSQL for data persistence. You have two options:
+
+### Option 1: Docker (Recommended)
+
+PostgreSQL is included in `docker-compose.yml`. When you run `docker compose up`, it starts a PostgreSQL container with:
+- Database: `eventbooking`
+- User: `postgres`
+- Password: `password123`
+- Port: `5432`
+
+### Option 2: Local PostgreSQL
+
+Install PostgreSQL locally (e.g., via [PostgreSQL installer](https://www.postgresql.org/download/)) and create the database:
+
+```sql
+CREATE DATABASE eventbooking;
+-- User: postgres, Password: password123 (or update connection strings)
+```
+
+### Connect with DBeaver
+
+Use DBeaver to connect to PostgreSQL:
+- **Host**: `localhost` (or `host.docker.internal` if using Docker on Windows)
+- **Port**: `5432`
+- **Database**: `eventbooking`
+- **Username**: `postgres`
+- **Password**: `password123`
+
+The services will automatically create tables and seed data on first startup.
 
 ## Quick Start (recommended — Docker)
 
@@ -86,6 +119,7 @@ another web server; see the `frontend/` README for build details.)
 
 ## Run without Docker (individual services)
 
+**First, ensure PostgreSQL is running** (see Database Setup above).
 
 Build the whole solution once:
 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingService.Api.Controllers
 {
@@ -6,31 +7,21 @@ namespace BookingService.Api.Controllers
     [Route("api/[controller]")]
     public class BookingsController : ControllerBase
     {
-        private static readonly List<BookingItem> Bookings = new()
+        private readonly BookingDbContext _context;
+
+        public BookingsController(BookingDbContext context)
         {
-            new BookingItem { Id = "1", EventId = "1", UserId = "1", Quantity = 2, Note = "Vé VIP" },
-            new BookingItem { Id = "2", EventId = "2", UserId = "2", Quantity = 1, Note = "Vé thường" },
-            new BookingItem { Id = "3", EventId = "3", UserId = "3", Quantity = 3, Note = "Đặt nhóm" },
-            new BookingItem { Id = "4", EventId = "4", UserId = "4", Quantity = 1, Note = "Online" }
-        };
+            _context = context;
+        }
 
         [HttpGet]
-        public IActionResult Get() => Ok(Bookings);
+        public async Task<IActionResult> Get() => Ok(await _context.Bookings.ToListAsync());
 
         [HttpGet("{id}")]
-        public IActionResult GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var booking = Bookings.FirstOrDefault(b => b.Id == id);
+            var booking = await _context.Bookings.FirstOrDefaultAsync(b => b.Id == id);
             return booking == null ? NotFound() : Ok(booking);
         }
-    }
-
-    public class BookingItem
-    {
-        public string Id { get; set; } = string.Empty;
-        public string EventId { get; set; } = string.Empty;
-        public string UserId { get; set; } = string.Empty;
-        public int Quantity { get; set; }
-        public string? Note { get; set; }
     }
 }

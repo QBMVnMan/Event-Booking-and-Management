@@ -1,4 +1,15 @@
 services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: eventbooking
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   api-gateway:
     build:
       context: .                           # Root of repo → includes shared/
@@ -10,6 +21,7 @@ services:
       - user-service
       - booking-service
       - payment-service
+      - postgres
 
   event-service:
     build:
@@ -17,6 +29,10 @@ services:
       dockerfile: services/EventService/src/EventService.Api/Dockerfile
     ports:
       - "5001:80"
+    depends_on:
+      - postgres
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
 
   user-service:
     build:
@@ -24,6 +40,10 @@ services:
       dockerfile: services/UserService/src/UserService.Api/Dockerfile
     ports:
       - "5002:80"
+    depends_on:
+      - postgres
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
 
   booking-service:
     build:
@@ -31,6 +51,10 @@ services:
       dockerfile: services/BookingService/src/BookingService.Api/Dockerfile
     ports:
       - "5003:80"
+    depends_on:
+      - postgres
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
 
   payment-service:
     build:
@@ -38,3 +62,10 @@ services:
       dockerfile: services/PaymentService/src/PaymentService.Api/Dockerfile
     ports:
       - "5004:80"
+    depends_on:
+      - postgres
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+
+volumes:
+  postgres_data:
