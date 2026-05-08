@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventService } from '../event.service';
+import { Router } from '@angular/router';
+import { EventService, EventItem } from '../event.service';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +12,8 @@ import { EventService } from '../event.service';
 })
 export class HomeComponent implements OnInit {
 
-  featuredEvents: any[] = [];
-  events: any[] = [];
+  featuredEvents: EventItem[] = [];
+  events: EventItem[] = [];
   categories = [
     'Nhạc sống', 'Hội thảo & Workshop', 'Thể thao',
     'Phim & Điện ảnh', 'Kịch & Nghệ thuật', 'Voucher & Khác'
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
     { breakpoint: '560px', numVisible: 1, numScroll: 1 }
   ];
 
-  constructor(private eventService: EventService) {}
+  constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit() {
     this.loadFeatured();
@@ -53,9 +54,8 @@ export class HomeComponent implements OnInit {
     this.loadEvents();
   }
 
-  onBuy(ev: any) {
-    // placeholder for buy action
-    alert('Mua vé cho: ' + (ev?.name || ev?.id));
+  onBuy(ev: EventItem) {
+    this.router.navigate(['/events', ev.id]);
   }
 
 }

@@ -1,152 +1,324 @@
-# Event Booking and Management 
-Modern microservices-based event ticketing platform inspired by **Ticketbox.vn**.
+# Event Booking and Management Platform
+**Modern microservices-based event ticketing platform inspired by Ticketbox.vn**
 
-- .NET 10 microservices (Event, User, Booking, Payment, API Gateway)
-- Angular 19 frontend with Ticketbox-style UI
-- PostgreSQL persistent database
-- Docker-first development & deployment
+A full-stack event booking system with .NET 10 microservices backend and Angular 19 frontend.
 
-Current status: basic auth + skeleton structure working. Core booking logic in progress.
+## 📋 Project Status
 
-## Prerequisites
+✅ **Latest Updates:**
+- Fixed Angular 19 TypeScript configuration (`tsconfig.json`)
+- Cleaned up API Gateway (removed demo weather endpoints)
+- Implemented Ticketbox.vn-inspired frontend design
+- Added BookingComponent with ticket selection flow
+- Responsive mobile-first UI with SCSS
+- JWT authentication configured in gateway
 
-- Git  
-- Docker & Docker Compose  
-- .NET 10 SDK (optional — local builds only)  
-- Node.js 18+ + npm (frontend)
-- **PostgreSQL** (for database — either local install or via Docker)
+---
 
-## Database Setup
+## 🏗️ Architecture
 
-The app uses PostgreSQL for data persistence. You have two options:
+**Backend (C# .NET 10 Microservices):**
+- **API Gateway** (port 5000) – entry point, request routing, JWT validation
+- **EventService** (port 5001) – event management
+- **UserService** (port 5002) – user authentication & profiles
+- **BookingService** (port 5003) – ticket bookings
+- **PaymentService** (port 5004) – payment processing
 
-### Option 1: Docker (Recommended)
+**Frontend (Angular 19):**
+- Ticketbox.vn inspired UI design
+- Responsive grid layout with SCSS
+- Home page with hero, categories, event grid
+- Event detail & booking flow
 
-PostgreSQL is included in `docker-compose.yml`. When you run `docker compose up`, it starts a PostgreSQL container with:
-- Database: `eventbooking`
-- User: `postgres`
-- Password: `password123`
-- Port: `5432`
+**Database:**
+- PostgreSQL (persistent)
 
-### Option 2: Local PostgreSQL
+---
 
-Install PostgreSQL locally (e.g., via [PostgreSQL installer](https://www.postgresql.org/download/)) and create the database:
+## 📦 Prerequisites
 
-```sql
-CREATE DATABASE eventbooking;
--- User: postgres, Password: password123 (or update connection strings)
+Before you start, install:
+
+1. **Git** – [Download](https://git-scm.com/download)
+2. **Docker & Docker Compose** – [Download](https://www.docker.com/products/docker-desktop)
+3. **Node.js 18+** – [Download](https://nodejs.org/) (for frontend development)
+4. **.NET 10 SDK** (optional) – [Download](https://dotnet.microsoft.com/download) (only if running services locally without Docker)
+
+**Verify installations:**
+```bash
+git --version
+docker --version
+docker-compose --version
+node --version
+npm --version
 ```
 
-### Connect with DBeaver
+---
 
-Use DBeaver to connect to PostgreSQL:
-- **Host**: `localhost` (or `host.docker.internal` if using Docker on Windows)
-- **Port**: `5432`
-- **Database**: `eventbooking`
-- **Username**: `postgres`
-- **Password**: `password123`
+## 🚀 Quick Start (Recommended: Docker)
 
-The services will automatically create tables and seed data on first startup.
-
-## Quick Start (recommended — Docker)
+### Step 1: Clone the repository
 
 ```bash
 git clone https://github.com/QBMVnMan/Event-Booking-and-Management.git
-# or: git clone git@github.com:QBMVnMan/Event-Booking-and-Management.git   (SSH)
-
 cd Event-Booking-and-Management
- 
-# Remember to open Docker Desktop first
+```
+
+### Step 2: Start all services with Docker
+
+Make sure **Docker Desktop is running**, then:
+
+```bash
 docker compose up --build -d
+```
+
+**Wait 30-60 seconds** for services to initialize. Check status:
+
+```bash
 docker compose ps
 ```
 
-Wait ~30–60 seconds for services to be ready.
+You should see all services running (STATUS: Up).
 
-**Exposed ports (localhost):**
+### Step 3: Access the services
 
-- API Gateway     → http://localhost:5000  
-- EventService    → http://localhost:5001  
-- UserService     → http://localhost:5002  
-- PostgreSQL → localhost:5432 (user: postgres, password: Postgres123!, db: eventbooking)
+| Service | URL |
+|---------|-----|
+| **Frontend** | http://localhost:4200 |
+| **API Gateway** | http://localhost:5000 |
+| **EventService** | http://localhost:5001 |
+| **UserService** | http://localhost:5002 |
+| **BookingService** | http://localhost:5003 |
+| **PaymentService** | http://localhost:5004 |
+| **PostgreSQL** | localhost:5432 |
 
-**Use the gateway (5000) for all client calls.**
+### Step 4: Run the frontend dev server
 
-## Database Setup (PostgreSQL)
-The project now uses persistent PostgreSQL. Data survives container restarts.
-
-- Automatic (Docker)
-PostgreSQL is included in docker-compose.yml. All services automatically connect to it.
-
-- Manual Connection String (if needed)
-Each service uses this connection string by default:
-```bash
-"ConnectionStrings": {
-  "DefaultConnection": "Host=postgres;Port=5432;Database=eventbooking;Username=postgres;Password=Postgres123!;Include Error Detail=true"
-}
-```
-For local PostgreSQL (outside Docker), change Host=postgres to Host=localhost.
-
-## Running Migrations (First Time Only)
-```bash
-# Run once after first start
-docker exec -it event-booking-and-management-user-service dotnet ef database update
-docker exec -it event-booking-and-management-event-service dotnet ef database update
-docker exec -it event-booking-and-management-booking-service dotnet ef database update
-docker exec -it event-booking-and-management-payment-service dotnet ef database update
-```
-Or run locally in each service folder:
-```bash
-cd services/UserService/src/UserService.Api && dotnet ef database update
-```
-
-## Local Dev Auth Demo (via gateway)
-
-1. **Register**
-
-```bash
-curl -X POST http://localhost:5000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"username":"alice","password":"Password123!"}'
-```
-
-2. **Login** → copy `accessToken`
-
-```bash
-curl -X POST http://localhost:5000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"alice","password":"Password123!"}'
-```
-
-3. **Call protected endpoint** (via gateway)
-
-```bash
-curl http://localhost:5000/api/protected \
-  -H "Authorization: Bearer <paste-your-token-here>"
-```
-
-## Run Frontend
+In a **new terminal**:
 
 ```bash
 cd frontend/event-booking-client
-npm ci           # install deps the first time or when package.json changes
-npm start         # starts the Angular dev server over HTTPS
-# or: ng serve --ssl --proxy-config proxy.conf.js
+npm install          # install dependencies (first time only)
+npm start            # start Angular dev server (port 4200)
 ```
 
-The CLI chooses a high port by default (`https://127.0.0.1:50068/` in our setup).  Look for
-`Local:` line in the console after the app compiles and open that URL in your browser.
+The app opens at **https://127.0.0.1:50068** (or similar high port). Look for `Local:` in the terminal output.
 
-All `/api` requests from the SPA are forwarded to the API gateway on port 5000 via
-`proxy.conf.js`. No additional CORS settings are required for local development.
+✅ **You're done!** The frontend automatically proxies `/api` calls to the gateway on port 5000.
 
->The frontend run port is unrelated to the backend ports; the proxy target is
-controlled by `API_GATEWAY_PORT` (defaults to `5000`).
+---
 
-(For production builds you would host the compiled output behind the gateway or
-another web server; see the `frontend/` README for build details.)
+## 🛠️ Running Locally Without Docker
 
-## Run without Docker (individual services)
+### Prerequisites for local run:
+
+1. **PostgreSQL running** (local install or Docker)
+2. **.NET 10 SDK** installed
+3. **Node.js 18+**
+
+### Step 1: Database setup
+
+**Option A: PostgreSQL in Docker (easy)**
+```bash
+docker run --name postgres-event-booking \
+  -e POSTGRES_PASSWORD=password123 \
+  -e POSTGRES_DB=eventbooking \
+  -p 5432:5432 \
+  -d postgres:16
+```
+
+**Option B: Local PostgreSQL**
+
+Install PostgreSQL, then create database:
+```sql
+CREATE DATABASE eventbooking;
+-- Connection: localhost:5432, user: postgres, password: your_password
+```
+
+### Step 2: Run backend services
+
+Open **5 separate terminals**:
+
+```bash
+# Terminal 1 – API Gateway
+dotnet run --project api-gateway/src/ApiGateway --urls http://localhost:5000
+
+# Terminal 2 – EventService
+dotnet run --project services/EventService/src/EventService.Api --urls http://localhost:5001
+
+# Terminal 3 – UserService
+dotnet run --project services/UserService/src/UserService.Api --urls http://localhost:5002
+
+# Terminal 4 – BookingService  
+dotnet run --project services/BookingService/src/BookingService.Api --urls http://localhost:5003
+
+# Terminal 5 – PaymentService
+dotnet run --project services/PaymentService/src/PaymentService.Api --urls http://localhost:5004
+```
+
+### Step 3: Run frontend
+
+```bash
+cd frontend/event-booking-client
+npm install
+npm start
+```
+
+Open browser to **http://localhost:4200**
+
+---
+
+## 📝 Project Structure
+
+```
+Event-Booking-and-Management/
+├── api-gateway/                 # .NET gateway (routes to microservices)
+│   └── src/ApiGateway/Program.cs
+├── services/
+│   ├── EventService/            # Event CRUD, featured events
+│   ├── UserService/             # User auth, profiles
+│   ├── BookingService/          # Ticket bookings
+│   └── PaymentService/          # Payment processing
+├── frontend/
+│   └── event-booking-client/    # Angular 19 SPA
+│       ├── src/app/
+│       │   ├── home/            # Home page (hero, categories, grid)
+│       │   ├── booking/         # Ticket selection & booking flow
+│       │   ├── event-detail.component.ts
+│       │   └── event.service.ts # API integration
+│       └── package.json
+├── shared/
+│   └── Contracts/               # Shared DTO models
+├── docker-compose.yml           # Docker services definition
+└── README.md
+```
+
+---
+
+## 🔐 Authentication (JWT)
+
+The API Gateway validates JWT tokens for protected endpoints.
+
+### Manual test (via curl):
+
+```bash
+# 1. Login
+curl -X POST http://localhost:5000/api/users/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}'
+
+# Response: {"accessToken": "eyJ0eXAi..."}
+
+# 2. Use token to call protected endpoint
+curl http://localhost:5000/api/events \
+  -H "Authorization: Bearer eyJ0eXAi..."
+```
+
+---
+
+## 🔧 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| **Port already in use** | Kill the process on that port or use different ports in docker-compose.yml |
+| **Services not starting** | Check `docker compose logs SERVICE_NAME` |
+| **Frontend shows "Cannot GET /"** | Make sure frontend is running with `npm start` |
+| **API calls fail (CORS/404)** | Verify API Gateway is running on port 5000 |
+| **Database connection error** | Ensure PostgreSQL is running and connection string matches |
+| **Angular build errors** | Delete `node_modules` and reinstall: `npm ci` |
+
+### Check service logs:
+
+```bash
+# View logs for a specific service
+docker compose logs event-service
+
+# View all logs with timestamps
+docker compose logs --timestamps
+
+# Stream live logs
+docker compose logs -f
+```
+
+---
+
+## 📚 Frontend Development
+
+See [frontend/event-booking-client/README.md](frontend/event-booking-client/README.md) for Angular-specific setup.
+
+**Common tasks:**
+```bash
+cd frontend/event-booking-client
+
+npm start              # dev server (http://localhost:4200)
+npm run build          # production build
+npm test               # run unit tests
+npm run lint           # run linter
+```
+
+---
+
+## ⚙️ Backend Configuration
+
+### API Gateway environment variables (optional):
+
+- `JWT_KEY` – Secret key for JWT tokens (default: in appsettings)
+- `JWT_ISSUER` – Token issuer (default: "EventBooking")
+- `JWT_AUDIENCE` – Token audience (default: "EventBooking")
+
+### Database connection string:
+
+**Default (Docker):**
+```
+Host=postgres;Port=5432;Database=eventbooking;Username=postgres;Password=password123
+```
+
+**Local PostgreSQL:**
+Edit each service's `appsettings.json` connection string.
+
+---
+
+## 🚢 Deployment
+
+### Docker deployment:
+
+```bash
+# Build and push images
+docker compose build
+
+# Deploy to production
+docker compose -f docker-compose.yml up -d
+```
+
+### Frontend (static hosting):
+
+```bash
+cd frontend/event-booking-client
+npm run build
+# Deploy dist/event_booking_and_management.client/ to your web server
+```
+
+---
+
+## 📄 License
+
+MIT License - feel free to use this project for learning and development!
+
+---
+
+## 👤 Contributors
+
+- **Bùi Minh Quân** – Project Lead
+
+---
+
+## ❓ Need Help?
+
+1. Check [Troubleshooting](#-troubleshooting) section above
+2. Review service logs: `docker compose logs SERVICE_NAME`
+3. Open an issue on GitHub
+
+Happy coding! 🚀
 
 **First, ensure PostgreSQL is running** (see Database Setup above).
 

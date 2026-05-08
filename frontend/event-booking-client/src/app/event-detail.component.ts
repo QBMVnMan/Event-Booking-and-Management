@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService, EventItem } from './event.service';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class EventDetailComponent implements OnInit {
   event?: EventItem;
 
-  constructor(private route: ActivatedRoute, private eventService: EventService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private eventService: EventService) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -22,6 +22,12 @@ export class EventDetailComponent implements OnInit {
       this.eventService.getEvents().subscribe((list: EventItem[]) => {
         this.event = list.find(e => e.id === id);
       });
+    }
+  }
+
+  bookTickets() {
+    if (this.event) {
+      this.router.navigate(['/booking', this.event.id]);
     }
   }
 }

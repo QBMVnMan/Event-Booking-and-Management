@@ -1,15 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { EventService } from './event.service';
-
-interface EventItem {
-  id: string;
-  name: string;
-  date: string;
-  venue?: string;
-  poster?: string;
-  minPrice?: number;
-}
+import { EventService, EventItem } from './event.service';
 
 @Component({
   selector: 'app-root',
@@ -47,6 +38,10 @@ export class AppComponent implements OnInit {
       next: (res: EventItem[]) => this.events = res,
       error: (err: any) => console.error('Failed to load events', err)
     });
+  }
+
+  search() {
+    this.loadEvents(this.selectedCategory || undefined, this.searchTerm);
   }
 
   selectCategory(cat: string) {

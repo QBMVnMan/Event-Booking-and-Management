@@ -1,0 +1,55 @@
+<div class="booking-container" *ngIf="event; else loading">
+  <div class="booking-header">
+    <button class="back-btn" (click)="goBack()">← Quay lại</button>
+    <h1>Đặt vé sự kiện</h1>
+  </div>
+
+  <div class="event-summary">
+    <div class="event-image" [style.backgroundImage]="'url(' + (event.poster || '') + ')'"></div>
+    <div class="event-details">
+      <h2>{{event.name}}</h2>
+      <p class="event-date">{{event.date | date:'EEEE, dd/MM/yyyy HH:mm'}}</p>
+      <p class="event-venue">{{event.venue}}</p>
+    </div>
+  </div>
+
+  <div class="ticket-selection">
+    <h3>Chọn loại vé</h3>
+    <div class="ticket-types">
+      <div class="ticket-type" *ngFor="let ticket of ticketTypes">
+        <div class="ticket-info">
+          <h4>{{ticket.name}}</h4>
+          <p class="ticket-price">{{ticket.price | currency:'VND'}}</p>
+          <p class="availability">Còn {{ticket.available}} vé</p>
+        </div>
+        <div class="quantity-selector">
+          <button (click)="updateQuantity(ticket.id, (selectedTickets[ticket.id] || 0) - 1)">-</button>
+          <input
+            type="number"
+            [value]="selectedTickets[ticket.id] || 0"
+            (input)="updateQuantity(ticket.id, +($event.target as HTMLInputElement).value)"
+            min="0"
+            [max]="ticket.available"
+          />
+          <button (click)="updateQuantity(ticket.id, (selectedTickets[ticket.id] || 0) + 1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="booking-summary">
+    <div class="summary-row">
+      <span>Tổng số vé:</span>
+      <span>{{getTotalTickets()}}</span>
+    </div>
+    <div class="summary-row total">
+      <span>Tổng tiền:</span>
+      <span>{{totalAmount | currency:'VND'}}</span>
+    </div>
+    <button class="btn-primary proceed-btn" (click)="proceedToPayment()">Tiếp tục thanh toán</button>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Đang tải...</p>
+</ng-template>

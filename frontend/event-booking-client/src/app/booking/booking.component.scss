@@ -1,0 +1,192 @@
+.booking-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.booking-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .back-btn {
+    background: #f5f5f5;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #e0e0e0;
+    }
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+}
+
+.event-summary {
+  display: flex;
+  gap: 1.5rem;
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+
+  .event-image {
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .event-details {
+    flex: 1;
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .event-date, .event-venue {
+      margin: 0.25rem 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.ticket-selection {
+  margin-bottom: 2rem;
+
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  .ticket-types {
+    .ticket-type {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      background: white;
+
+      .ticket-info {
+        h4 {
+          font-size: 1.1rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          color: #333;
+        }
+
+        .ticket-price {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #1976d2;
+          margin-bottom: 0.25rem;
+        }
+
+        .availability {
+          font-size: 0.85rem;
+          color: #666;
+        }
+      }
+
+      .quantity-selector {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        button {
+          width: 32px;
+          height: 32px;
+          border: 1px solid #ddd;
+          background: white;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: 600;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: #f5f5f5;
+          }
+        }
+
+        input {
+          width: 60px;
+          padding: 0.5rem;
+          text-align: center;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+.booking-summary {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+
+    &.total {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1976d2;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+  }
+
+  .proceed-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .event-summary {
+    flex-direction: column;
+    text-align: center;
+
+    .event-image {
+      width: 100%;
+      height: 200px;
+    }
+  }
+
+  .ticket-type {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}

@@ -3,7 +3,7 @@
   <p>{{event.date | date:'fullDate'}} • {{event.venue}}</p>
   <img *ngIf="event.poster" [src]="event.poster" alt="{{event.name}}" />
   <p class="price">Từ {{event.minPrice | currency:'VND'}}</p>
-  <button>Tiếp tục mua vé</button>
+  <button class="btn-primary" (click)="bookTickets()">Đặt vé ngay</button>
 </div>
 <ng-template #notfound>
   <p>Sự kiện không tìm thấy.</p>

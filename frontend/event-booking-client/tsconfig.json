@@ -9,14 +9,19 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
     "skipLibCheck": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
-    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node16",
+    "importHelpers": false,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "node16",
+    "lib": ["ES2022", "dom"],
+    "rootDir": "./src",
+    "ignoreDeprecations": "6.0"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
