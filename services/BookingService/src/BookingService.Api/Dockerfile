@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-jammy AS base
 WORKDIR /app
 EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:80
@@ -10,7 +10,7 @@ ENV DOTNET_NOLOGO=1
 ENV DOTNET_GCHeapHardLimit=0x40000000
 ENV DOTNET_GCConserveMemory=1
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-jammy AS build
 WORKDIR /src
 # Add environment variables for build stage
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
