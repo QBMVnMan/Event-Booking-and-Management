@@ -11,3 +11,17 @@ obj/
 **/*.log
 node_modules/
 frontend/event-booking-client/dist/
+
+# Additional optimizations for .NET 10 mmap issues
+**/.vscode/
+**/.git/
+**/*.tmp
+**/*.swp
+**/*.swo
+**/TestResults/
+**/packages/
+**/artifacts/
+**/*.nupkg
+**/coverage/
+**/.sonar/
+**/logs/

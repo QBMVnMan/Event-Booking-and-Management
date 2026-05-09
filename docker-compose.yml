@@ -9,63 +9,122 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   api-gateway:
     build:
       context: .                           # Root of repo → includes shared/
       dockerfile: api-gateway/src/ApiGateway/Dockerfile
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+        DOCKER_BUILDKIT: 1
     ports:
       - "5000:80"
     depends_on:
-      - event-service
-      - user-service
-      - booking-service
-      - payment-service
-      - postgres
+      postgres:
+        condition: service_healthy
+      event-service:
+        condition: service_started
+      user-service:
+        condition: service_started
+      booking-service:
+        condition: service_started
+      payment-service:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   event-service:
     build:
       context: .
       dockerfile: services/EventService/src/EventService.Api/Dockerfile
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+        DOCKER_BUILDKIT: 1
     ports:
       - "5001:80"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   user-service:
     build:
       context: .
       dockerfile: services/UserService/src/UserService.Api/Dockerfile
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+        DOCKER_BUILDKIT: 1
     ports:
       - "5002:80"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   booking-service:
     build:
       context: .
       dockerfile: services/BookingService/src/BookingService.Api/Dockerfile
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+        DOCKER_BUILDKIT: 1
     ports:
       - "5003:80"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   payment-service:
     build:
       context: .
       dockerfile: services/PaymentService/src/PaymentService.Api/Dockerfile
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+        DOCKER_BUILDKIT: 1
     ports:
       - "5004:80"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     environment:
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
   postgres_data:
