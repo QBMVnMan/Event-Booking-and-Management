@@ -226,6 +226,7 @@ curl http://localhost:5000/api/events \
 | **API calls fail (CORS/404)** | Verify API Gateway is running on port 5000 |
 | **Database connection error** | Ensure PostgreSQL is running and connection string matches |
 | **Angular build errors** | Delete `node_modules` and reinstall: `npm ci` |
+| **.NET 10 Docker mmap errors** | The Dockerfiles are configured with .NET 10 compatibility fixes. If build fails, ensure Docker has 4GB+ RAM and try: `DOCKER_BUILDKIT=1 docker compose up --build -d` |
 
 ### Check service logs:
 
@@ -239,6 +240,17 @@ docker compose logs --timestamps
 # Stream live logs
 docker compose logs -f
 ```
+
+### .NET 10 Docker Configuration
+
+This project uses .NET 10 with optimized Docker configurations to resolve mmap compatibility issues:
+
+- **Environment Variables**: Memory management and telemetry disabled
+- **Build Arguments**: BuildKit enabled for better caching
+- **Health Checks**: Services wait for dependencies before starting
+- **Build Optimization**: Parallel restore disabled, minimal verbosity
+
+If you encounter Docker build issues with .NET 10, the configurations are already in place.
 
 ---
 
