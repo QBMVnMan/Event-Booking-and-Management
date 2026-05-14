@@ -40,8 +40,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  search() {
-    this.loadEvents(this.selectedCategory || undefined, this.searchTerm);
+   search() {
+    if (this.searchTerm.trim()) {
+      this.router.navigate(['/'], { 
+        queryParams: { search: this.searchTerm.trim() } 
+      });
+    }
   }
 
   selectCategory(cat: string) {
@@ -54,9 +58,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/events', id]);
   }
 
-search() {
-    this.loadEvents(this.selectedCategory, this.searchTerm);
-  }
+
 
   login() {
     alert('Đăng nhập (tạm)');

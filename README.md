@@ -72,13 +72,13 @@ Make sure **Docker Desktop is running**, then:
 docker compose up --build -d
 ```
 
-**Wait 30-60 seconds** for services to initialize. Check status:
+**Wait 3-6 minutes** for services to initialize, there is a **LOT** of warnings, ignore them for now. Check status:
 
 ```bash
 docker compose ps
 ```
 
-You should see all services running (STATUS: Up).
+You should see all services running (STATUS: Up). 
 
 ### Step 3: Access the services
 

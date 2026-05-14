@@ -43,13 +43,14 @@ export class BookingComponent implements OnInit {
     }
   }
 
-  updateQuantity(ticketId: string, quantity: number) {
-    if (quantity < 0) quantity = 0;
-    const ticket = this.ticketTypes.find(t => t.id === ticketId);
-    if (ticket && quantity > ticket.available) quantity = ticket.available;
-    this.selectedTickets[ticketId] = quantity;
-    this.calculateTotal();
+  updateQuantity(ticketId: number, quantity: number): void {
+  if (quantity < 0) quantity = 0;
+  if (quantity > this.getMaxAvailable(ticketId)) {
+    quantity = this.getMaxAvailable(ticketId);
   }
+  this.selectedTickets[ticketId] = quantity;
+  this.calculateTotal();
+}
 
   calculateTotal() {
     this.totalAmount = 0;

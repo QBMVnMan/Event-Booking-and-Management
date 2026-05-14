@@ -22,17 +22,33 @@
           <p class="ticket-price">{{ticket.price | currency:'VND'}}</p>
           <p class="availability">Còn {{ticket.available}} vé</p>
         </div>
-        <div class="quantity-selector">
-          <button (click)="updateQuantity(ticket.id, (selectedTickets[ticket.id] || 0) - 1)">-</button>
-          <input
-            type="number"
-            [value]="selectedTickets[ticket.id] || 0"
-            (input)="updateQuantity(ticket.id, +($event.target as HTMLInputElement).value)"
-            min="0"
-            [max]="ticket.available"
-          />
-          <button (click)="updateQuantity(ticket.id, (selectedTickets[ticket.id] || 0) + 1)">+</button>
-        </div>
+        <div class="ticket-item" *ngFor="let ticket of tickets">
+  <div class="ticket-info">
+    <h4>{{ ticket.type }}</h4>
+    <p>{{ ticket.price | currency:'VND' }}</p>
+    <p class="available">Available: {{ ticket.available }}</p>
+  </div>
+  
+  <div class="quantity-control">
+    <button (click)="updateQuantity(ticket.id, (selectedTickets[ticket.id] || 0) - 1)" 
+            [disabled]="!(selectedTickets[ticket.id] && selectedTickets[ticket.id] > 0)">
+      -
+    </button>
+    
+    <input 
+      type="number" 
+      [value]="selectedTickets[ticket.id] || 0"
+      (input)="updateQuantity(ticket.id, +($event.target as HTMLInputElement).value)"
+      [min]="0" 
+      [max]="ticket.available"
+      class="quantity-input">
+    
+    <button (click)="updateQuantity(ticket.id, (selectedTickets[ticket.id] || 0) + 1)" 
+            [disabled]="(selectedTickets[ticket.id] || 0) >= ticket.available">
+      +
+    </button>
+  </div>
+</div>
       </div>
     </div>
   </div>
