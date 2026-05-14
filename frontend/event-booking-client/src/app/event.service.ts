@@ -43,6 +43,10 @@ export class EventService {
       .pipe(catchError(this.handleError('getEvents', [])));
   }
 
+  getEventById(id: number) {
+  return this.http.get<any>(`/api/events/${id}`);
+}
+
   // Fallback local sample (not used by default)
   sampleEvents(): Observable<EventItem[]> {
     const sample: EventItem[] = [

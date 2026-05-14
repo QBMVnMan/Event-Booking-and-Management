@@ -1,32 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { EventService, EventItem } from '../event.service';
-
-interface TicketType {
-  id: string;
-  name: string;
-  price: number;
-  available: number;
-}
+import { EventService } from '../event.service';
 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './booking.component.html',
   styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent implements OnInit {
-  event?: EventItem;
-  ticketTypes: TicketType[] = [
-    { id: '1', name: 'Vé thường', price: 150000, available: 50 },
-    { id: '2', name: 'Vé VIP', price: 300000, available: 20 },
-    { id: '3', name: 'Vé hạng A', price: 500000, available: 10 }
-  ];
-  selectedTickets: { [key: string]: number } = {};
-  totalAmount = 0;
+  event: any;
+  tickets: any[] = [];
+  selectedTickets: { [key: number]: number } = {};
+  totalAmount: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,50 +22,58 @@ export class BookingComponent implements OnInit {
     private eventService: EventService
   ) {}
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.eventService.getEvents().subscribe((list: EventItem[]) => {
-        this.event = list.find(e => e.id === id);
-      });
-    }
+  ngOnInit() {
+    const eventId = Number(this.route.snapshot.paramMap.get('id'));
+    this.loadEventAndTickets(eventId);
+  }
+
+  loadEventAndTickets(eventId: number) {
+    this.eventService.getEventById(eventId).subscribe({
+      next: (data: any) => {
+        this.event = data;
+        this.tickets = [
+          { id: 1, type: 'VIP', price: 1500000, available: 50 },
+          { id: 2, type: 'Standard', price: 800000, available: 200 },
+          { id: 3, type: 'Early Bird', price: 500000, available: 100 }
+        ];
+      },
+      error: (err) => console.error('Error loading event', err)
+    });
   }
 
   updateQuantity(ticketId: number, quantity: number): void {
-  if (quantity < 0) quantity = 0;
-  if (quantity > this.getMaxAvailable(ticketId)) {
-    quantity = this.getMaxAvailable(ticketId);
+    if (quantity < 0) quantity = 0;
+    const ticket = this.tickets.find(t => t.id === ticketId);
+    const max = ticket ? ticket.available : 0;
+    if (quantity > max) quantity = max;
+
+    this.selectedTickets[ticketId] = quantity;
+    this.calculateTotal();
   }
-  this.selectedTickets[ticketId] = quantity;
-  this.calculateTotal();
-}
+
+    onQuantityInput(ticketId: number, event: any): void {
+    const value = Number((event.target as HTMLInputElement).value) || 0;
+    this.updateQuantity(ticketId, value);
+  }
 
   calculateTotal() {
-    this.totalAmount = 0;
-    for (const ticketId in this.selectedTickets) {
-      const quantity = this.selectedTickets[ticketId];
-      const ticket = this.ticketTypes.find(t => t.id === ticketId);
-      if (ticket) {
-        this.totalAmount += ticket.price * quantity;
-      }
-    }
+    this.totalAmount = Object.keys(this.selectedTickets).reduce((sum, key) => {
+      const ticketId = Number(key);
+      const ticket = this.tickets.find(t => t.id === ticketId);
+      return sum + (ticket ? ticket.price * (this.selectedTickets[ticketId] || 0) : 0);
+    }, 0);
   }
 
   getTotalTickets(): number {
     return Object.values(this.selectedTickets).reduce((sum, qty) => sum + qty, 0);
   }
 
-  proceedToPayment() {
-    if (this.getTotalTickets() === 0) {
-      alert('Vui lòng chọn ít nhất một vé');
-      return;
-    }
-    // Simulate booking
-    alert(`Đặt vé thành công! Tổng tiền: ${this.totalAmount.toLocaleString()} ₫`);
+  goBack() {
     this.router.navigate(['/']);
   }
 
-  goBack() {
-    this.router.navigate(['/events', this.event?.id]);
+  proceedToPayment() {
+    console.log('Proceeding to payment with:', this.selectedTickets);
+    alert('Đang chuyển đến trang thanh toán...');
   }
 }
