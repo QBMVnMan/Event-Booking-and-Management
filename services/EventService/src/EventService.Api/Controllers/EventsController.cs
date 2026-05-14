@@ -36,5 +36,3 @@ namespace EventService.Api.Controllers
         }
     }
 }
-    }
-}
