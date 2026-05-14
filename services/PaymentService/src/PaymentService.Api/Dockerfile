@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-jammy AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:80
@@ -6,11 +6,16 @@ ENV ASPNETCORE_URLS=http://+:80
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 ENV DOTNET_NOLOGO=1
-# Additional memory management for .NET 10
-ENV DOTNET_GCHeapHardLimit=0x40000000
+# Critical mmap fix for Docker Desktop WSL2
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+ENV DOTNET_EnableDiagnostics=0
+ENV DOTNET_UsePollingFileWatcher=1
+# Aggressive memory management for .NET 10
+ENV DOTNET_GCHeapHardLimit=0x80000000
 ENV DOTNET_GCConserveMemory=1
+ENV DOTNET_GCRetainVM=0
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0-jammy AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 # Add environment variables for build stage
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -18,9 +23,15 @@ ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 ENV DOTNET_NOLOGO=1
 # Disable NuGet cache to avoid mmap issues
 ENV NUGET_XMLDOC_MODE=skip
-# Additional memory management for .NET 10
-ENV DOTNET_GCHeapHardLimit=0x40000000
+# Critical mmap fix for Docker Desktop WSL2
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+ENV DOTNET_EnableDiagnostics=0
+ENV DOTNET_UsePollingFileWatcher=1
+ENV DOTNET_DbgMiniDumpType=4
+# Aggressive memory management for .NET 10
+ENV DOTNET_GCHeapHardLimit=0x80000000
 ENV DOTNET_GCConserveMemory=1
+ENV DOTNET_GCRetainVM=0
 
 # ── 1. Copy ALL .csproj files that are referenced (including shared) ──
 COPY ["shared/Contracts/Contracts.csproj", "shared/Contracts/"]
@@ -28,8 +39,8 @@ COPY ["services/PaymentService/src/PaymentService.Api/PaymentService.Api.csproj"
 
 
 # ── 2. Restore everything with optimized flags ──
-RUN dotnet restore "shared/Contracts/Contracts.csproj" --disable-parallel --verbosity minimal
-RUN dotnet restore "services/PaymentService/src/PaymentService.Api/PaymentService.Api.csproj" --disable-parallel --verbosity minimal
+RUN dotnet restore "shared/Contracts/Contracts.csproj" --no-cache && \
+    dotnet restore "services/PaymentService/src/PaymentService.Api/PaymentService.Api.csproj" --no-cache
 
 # ── 3. Copy the rest of the source code ──
 COPY . .
