@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UserService.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using UserService.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

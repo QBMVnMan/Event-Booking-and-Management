@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using BookingService.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

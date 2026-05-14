@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PaymentService.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

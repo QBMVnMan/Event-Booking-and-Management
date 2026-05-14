@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using EventService.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
