@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using EventService.Api;  
 
 namespace EventService.Api.Controllers
 {

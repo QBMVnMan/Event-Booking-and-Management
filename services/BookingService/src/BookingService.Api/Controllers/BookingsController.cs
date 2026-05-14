@@ -1,5 +1,7 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BookingService.Api;   
 
 namespace BookingService.Api.Controllers
 {

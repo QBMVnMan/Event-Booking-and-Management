@@ -1,5 +1,7 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UserService.Api;
 
 namespace UserService.Api.Controllers
 {
