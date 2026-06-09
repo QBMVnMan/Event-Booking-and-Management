@@ -6,23 +6,33 @@ A full-stack event booking system with .NET 10 microservices backend and Angular
 ## 📋 Project Status
 
 ✅ **Latest Updates:**
-- Fixed Angular 19 TypeScript configuration (`tsconfig.json`)
-- Cleaned up API Gateway (removed demo weather endpoints)
-- Implemented Ticketbox.vn-inspired frontend design
-- Added BookingComponent with ticket selection flow
-- Responsive mobile-first UI with SCSS
-- JWT authentication configured in gateway
+- Fixed critical API mapping issues by removing duplicate auth minimal API routes and keeping the controller-based auth flow intact
+- Fixed API Gateway routing for `/api/auth/*` endpoints to the UserService (port 5002)
+- Added proper authorization protection to sensitive user endpoints via `[Authorize]` on `UsersController`
+- Cleaned up leftover sample `weatherforecast` endpoints from the backend services
+- Improved overall API routing stability, security, and maintainability
+- Updated the frontend experience with the Ticketbox.vn-inspired design and booking flow
 
 ---
 
 ## 🏗️ Architecture
 
 **Backend (C# .NET 10 Microservices):**
-- **API Gateway** (port 5000) – entry point, request routing, JWT validation
-- **EventService** (port 5001) – event management
-- **UserService** (port 5002) – user authentication & profiles
-- **BookingService** (port 5003) – ticket bookings
-- **PaymentService** (port 5004) – payment processing
+- **API Gateway** (port 5000) – central entry point, request routing to `/api/events`, `/api/auth`, `/api/users`, `/api/bookings`, and `/api/payments`, with JWT validation and auth forwarding
+- **EventService** (port 5001) – event listing, browsing, and featured event APIs
+- **UserService** (port 5002) – controller-based authentication and user profile endpoints; protected user routes now require authorization
+- **BookingService** (port 5003) – booking-related APIs
+- **PaymentService** (port 5004) – payment-related APIs
+
+### 🛠️ Backend Improvements
+
+The backend has been cleaned up to use a more stable and secure routing model:
+- Duplicate auth minimal API routes were removed to avoid conflicting mappings
+- `/api/auth/*` requests are routed correctly through the API Gateway
+- Sensitive user endpoints are protected with `[Authorize]`
+- Leftover sample `weatherforecast` endpoints were removed from the service hosts
+
+This keeps the current API surface focused on real business functionality instead of demo routes.
 
 **Frontend (Angular 19):**
 - Ticketbox.vn inspired UI design
@@ -197,21 +207,30 @@ Event-Booking-and-Management/
 
 ## 🔐 Authentication (JWT)
 
-The API Gateway validates JWT tokens for protected endpoints.
+The API Gateway validates JWT tokens for protected endpoints. The current auth flow uses the controller-based endpoints in the UserService, so the gateway route to `/api/auth/*` is the recommended entry point.
 
 ### Manual test (via curl):
 
 ```bash
-# 1. Login
-curl -X POST http://localhost:5000/api/users/login \
+# 1. Login via the gateway (controller-based auth)
+curl -X POST http://localhost:5000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin123"}'
 
-# Response: {"accessToken": "eyJ0eXAi..."}
+# Response example:
+# {"accessToken": "eyJ0eXAi..."}
 
-# 2. Use token to call protected endpoint
-curl http://localhost:5000/api/events \
+# 2. Use the returned token to call a protected endpoint
+curl http://localhost:5000/api/users \
   -H "Authorization: Bearer eyJ0eXAi..."
+```
+
+You can also register a user with:
+
+```bash
+curl -X POST http://localhost:5000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"username":"demo","password":"demo123","email":"demo@example.com"}'
 ```
 
 ---
