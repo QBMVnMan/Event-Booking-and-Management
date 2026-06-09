@@ -68,6 +68,7 @@ var proxyClient = httpClientFactory.CreateClient("gatewayProxy");
 var serviceMap = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
 {
     ["events"] = 5001,
+    ["auth"] = 5002,
     ["users"] = 5002,
     ["bookings"] = 5003,
     ["payments"] = 5004

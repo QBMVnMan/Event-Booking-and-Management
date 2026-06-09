@@ -1,10 +1,12 @@
 using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UserService.Api;
 
 namespace UserService.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
