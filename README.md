@@ -353,11 +353,13 @@ Happy coding! 🚀
 
 **First, ensure PostgreSQL is running** (see Database Setup above).
 
-Build the whole solution once:
+Build the whole solution once using the active solution file:
 
 ```bash
 dotnet build EventBookingMicroservices.slnx
 ```
+
+Only EventBookingMicroservices.slnx is kept in this repository as the main backend solution file.
 
 **Important:** By default, the .NET launch profiles use random ports (e.g. 5083, 5238, etc.).
 For the frontend proxy and microservices to work together, you must run each service on the correct port using `--urls`:

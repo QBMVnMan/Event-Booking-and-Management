@@ -17,3 +17,7 @@ frontend/event-booking-client/dist/
 
 # Logs
 *.log
+
+# Keep the active solution file in source control
+# Ignore the legacy duplicate solution name used previously.
+Event_Booking_and_Management.slnx
