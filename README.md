@@ -10,6 +10,7 @@ A full-stack event booking system with .NET 10 microservices backend and Angular
 - Fixed API Gateway routing for `/api/auth/*` endpoints to the UserService (port 5002)
 - Added proper authorization protection to sensitive user endpoints via `[Authorize]` on `UsersController`
 - Cleaned up leftover sample `weatherforecast` endpoints from the backend services
+- Updated JWT-related package references to current secure stable versions for improved security
 - Improved overall API routing stability, security, and maintainability
 - Updated the frontend experience with the Ticketbox.vn-inspired design and booking flow
 
