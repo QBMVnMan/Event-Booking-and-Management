@@ -359,7 +359,7 @@ Build the whole solution once using the active solution file:
 dotnet build EventBookingMicroservices.slnx
 ```
 
-Only EventBookingMicroservices.slnx is kept in this repository as the main backend solution file.
+Only EventBookingMicroservices.slnx is kept in this repository as the main backend solution file. The JWT-related package references were also refreshed to current secure stable versions to address the known vulnerability warnings.
 
 **Important:** By default, the .NET launch profiles use random ports (e.g. 5083, 5238, etc.).
 For the frontend proxy and microservices to work together, you must run each service on the correct port using `--urls`:
