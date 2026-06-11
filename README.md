@@ -42,7 +42,8 @@ This keeps the current API surface focused on real business functionality instea
 - Event detail & booking flow
 
 **Database:**
-- PostgreSQL (persistent)
+- PostgreSQL (persistent, especially when running with Docker)
+- Data is stored in the PostgreSQL container/service; stopping the Docker container will stop the database and any stored data will be lost unless you persist the database volume.
 
 ---
 
@@ -389,8 +390,8 @@ Frontend as above.
 - **JWT keys** are currently in `appsettings.Development.json` — **development only**.  
   Never use these in production. Switch to env vars / secrets manager.
 
-- **Database**: in-memory (or SQLite) for now — data resets on restart.  
-  No persistent DB container yet.
+- **Database**: PostgreSQL is the current data store for the backend services.  
+  If you run the stack with Docker, the database is containerized and data will be lost if you remove the PostgreSQL container volume. Use the provided Docker setup for persistent local development.
 
 - **Main entry point**: always use the gateway (`localhost:5000`), not direct service ports.
 
