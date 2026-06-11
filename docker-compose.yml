@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:15
+    restart: unless-stopped
     environment:
       POSTGRES_DB: eventbooking
       POSTGRES_USER: postgres
@@ -16,6 +17,7 @@ services:
       retries: 5
 
   api-gateway:
+    restart: unless-stopped
     build:
       context: .                           # Root of repo → includes shared/
       dockerfile: api-gateway/src/ApiGateway/Dockerfile
@@ -35,14 +37,17 @@ services:
         condition: service_started
       payment-service:
         condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
   event-service:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: services/EventService/src/EventService.Api/Dockerfile
@@ -55,15 +60,17 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Host=postgres;Database=eventbooking;Username=postgres;Password=password123
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
   user-service:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: services/UserService/src/UserService.Api/Dockerfile
@@ -76,15 +83,17 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Host=postgres;Database=eventbooking;Username=postgres;Password=password123
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
   booking-service:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: services/BookingService/src/BookingService.Api/Dockerfile
@@ -97,15 +106,17 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Host=postgres;Database=eventbooking;Username=postgres;Password=password123
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
 
   payment-service:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: services/PaymentService/src/PaymentService.Api/Dockerfile
@@ -118,9 +129,10 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Host=postgres;Database=eventbooking;Username=postgres;Password=password123
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__DefaultConnection: Host=postgres;Database=eventbooking;Username=postgres;Password=password123
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

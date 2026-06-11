@@ -54,6 +54,8 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }));
+
 // Ensure database is created and seeded
 using (var scope = app.Services.CreateScope())
 {

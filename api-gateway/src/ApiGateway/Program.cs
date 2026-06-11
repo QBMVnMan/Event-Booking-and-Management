@@ -48,6 +48,8 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }));
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

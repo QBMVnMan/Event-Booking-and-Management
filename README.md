@@ -42,8 +42,8 @@ This keeps the current API surface focused on real business functionality instea
 - Event detail & booking flow
 
 **Database:**
-- PostgreSQL (persistent, especially when running with Docker)
-- Data is stored in the PostgreSQL container/service; stopping the Docker container will stop the database and any stored data will be lost unless you persist the database volume.
+- PostgreSQL (persistent when running with Docker)
+- The Docker Compose stack uses the named volume `postgres_data`, so a normal `docker compose down` keeps the database data. Use `docker compose down -v` only when you want a full reset.
 
 ---
 
@@ -84,13 +84,23 @@ Make sure **Docker Desktop is running**, then:
 docker compose up --build -d
 ```
 
-**Wait 3-6 minutes** for services to initialize, there is a **LOT** of warnings, ignore them for now. Check status:
+**Wait 3-6 minutes** for services to initialize; you may see a few restore/build warnings in the first run, but the stack is healthy once the status shows `Up`. Check status:
 
 ```bash
 docker compose ps
 ```
 
-You should see all services running (STATUS: Up). 
+You should see all services running (STATUS: Up). Use the following commands if you need to inspect the startup logs or reset the stack:
+
+```bash
+docker compose ps
+docker compose logs -f postgres
+docker compose logs -f api-gateway
+# Reset everything including PostgreSQL data
+# docker compose down -v
+```
+
+The PostgreSQL data volume is persisted in Docker via `postgres_data`, so the database survives a normal `docker compose down` and only resets when you run `docker compose down -v`.
 
 ### Step 3: Access the services
 

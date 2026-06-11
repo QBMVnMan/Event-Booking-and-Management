@@ -1,6 +1,9 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 80
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 ENV ASPNETCORE_URLS=http://+:80
 # Add environment variables to resolve mmap issues with .NET 10
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -37,14 +40,14 @@ ENV DOTNET_GCRetainVM=0
 COPY ["api-gateway/src/ApiGateway/ApiGateway.csproj", "api-gateway/src/ApiGateway/"]
 
 # ── 2. Restore everything with optimized flags ──
-RUN dotnet restore "api-gateway/src/ApiGateway/ApiGateway.csproj" --no-cache
+RUN dotnet restore "api-gateway/src/ApiGateway/ApiGateway.csproj" --disable-parallel --no-cache
 
 # ── 3. Copy the rest of the source code ──
 COPY . .
 
 # ── 4. Publish only the service project ──
 WORKDIR /src/api-gateway/src/ApiGateway
-RUN dotnet publish -c Release -o /app/publish --no-restore
+RUN dotnet publish -c Release -o /app/publish --no-restore --disable-parallel
 
 FROM base AS final
 WORKDIR /app
