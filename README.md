@@ -1,5 +1,6 @@
 # Event Booking and Management Platform
 **Modern microservices-based event ticketing platform inspired by Ticketbox.vn**
+![.NET Microservices CI](https://github.com/QBMVnMan/Event-Booking-and-Management/actions/workflows/ci.yml/badge.svg)
 
 A full-stack event booking system with .NET 10 microservices backend and Angular 19 frontend.
 
