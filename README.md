@@ -1,8 +1,8 @@
 # Event Booking and Management Platform
-**Modern microservices-based event ticketing platform inspired by Ticketbox.vn**
+**A full-stack event booking system with a working Angular frontend and .NET 10 microservices backend**
 ![.NET Microservices CI](https://github.com/QBMVnMan/Event-Booking-and-Management/actions/workflows/ci.yml/badge.svg)
 
-A full-stack event booking system with .NET 10 microservices backend and Angular 19 frontend.
+This project combines a modern Angular 19 frontend with a secure, routed .NET microservices backend for event discovery, booking, payments, and user auth.
 
 ## 📋 Project Status
 
@@ -68,66 +68,63 @@ npm --version
 
 ---
 
-## 🚀 Quick Start (Recommended: Docker)
+## 🚀 Quick Start
 
-### Step 1: Clone the repository
+### Option 1: Run the backend with Docker
+
+This starts the API gateway, microservices, and PostgreSQL database:
 
 ```bash
 git clone https://github.com/QBMVnMan/Event-Booking-and-Management.git
 cd Event-Booking-and-Management
-```
-
-### Step 2: Start all services with Docker
-
-Make sure **Docker Desktop is running**, then:
-
-```bash
 docker compose up --build -d
 ```
 
-**Wait 3-6 minutes** for services to initialize; you may see a few restore/build warnings in the first run, but the stack is healthy once the status shows `Up`. Check status:
+After startup, verify the services:
 
 ```bash
 docker compose ps
 ```
 
-You should see all services running (STATUS: Up). Use the following commands if you need to inspect the startup logs or reset the stack:
+Useful Docker commands:
 
 ```bash
-docker compose ps
 docker compose logs -f postgres
 docker compose logs -f api-gateway
-# Reset everything including PostgreSQL data
+docker compose down
+# Full reset (removes database data too)
 # docker compose down -v
 ```
 
-The PostgreSQL data volume is persisted in Docker via `postgres_data`, so the database survives a normal `docker compose down` and only resets when you run `docker compose down -v`.
+The PostgreSQL data volume is preserved by default with `docker compose down`; use `docker compose down -v` only when you want a complete reset.
 
-### Step 3: Access the services
+### Option 2: Run the Angular frontend
+
+In a separate terminal:
+
+```bash
+cd frontend/event-booking-client
+npm install
+npm start
+```
+
+The Angular dev server will start successfully and should display a local URL such as:
+
+- **https://localhost:50068** (or another port shown by Angular)
+
+The frontend is configured to talk to the backend gateway on port `5000`.
+
+### Service URLs
 
 | Service | URL |
 |---------|-----|
-| **Frontend** | http://localhost:4200 |
+| **Frontend** | https://localhost:50068 |
 | **API Gateway** | http://localhost:5000 |
 | **EventService** | http://localhost:5001 |
 | **UserService** | http://localhost:5002 |
 | **BookingService** | http://localhost:5003 |
 | **PaymentService** | http://localhost:5004 |
 | **PostgreSQL** | localhost:5432 |
-
-### Step 4: Run the frontend dev server
-
-In a **new terminal**:
-
-```bash
-cd frontend/event-booking-client
-npm install          # install dependencies (first time only)
-npm start            # start Angular dev server (port 4200)
-```
-
-The app opens at **https://127.0.0.1:50068** (or similar high port). Look for `Local:` in the terminal output.
-
-✅ **You're done!** The frontend automatically proxies `/api` calls to the gateway on port 5000.
 
 ---
 
@@ -187,9 +184,26 @@ npm install
 npm start
 ```
 
-Open browser to **http://localhost:4200**
+Open the Angular dev server URL shown in the terminal (typically `https://localhost:50068`).
 
 ---
+
+## 🌐 Frontend
+
+The frontend is a working Angular 19 application that provides the event browsing, detail, and booking UI.
+
+### Frontend setup
+
+```bash
+cd frontend/event-booking-client
+npm install
+npm start
+```
+
+### Notes
+- The frontend is intended to run alongside the backend services.
+- Use the Angular URL shown by the CLI (for example, `https://localhost:50068`) for local development.
+- The frontend proxy configuration points API calls to the gateway on port `5000`.
 
 ## 📝 Project Structure
 
