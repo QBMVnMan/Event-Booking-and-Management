@@ -70,9 +70,9 @@ npm --version
 
 ## 🚀 Quick Start
 
-### Option 1: Run the backend with Docker
+### 1) Start the backend services
 
-This starts the API gateway, microservices, and PostgreSQL database:
+This runs the API gateway, microservices, and PostgreSQL database:
 
 ```bash
 git clone https://github.com/QBMVnMan/Event-Booking-and-Management.git
@@ -80,27 +80,36 @@ cd Event-Booking-and-Management
 docker compose up --build -d
 ```
 
-After startup, verify the services:
+Then verify everything is running:
 
 ```bash
 docker compose ps
 ```
 
-Useful Docker commands:
+If you want to inspect logs:
 
 ```bash
 docker compose logs -f postgres
 docker compose logs -f api-gateway
-docker compose down
-# Full reset (removes database data too)
-# docker compose down -v
+docker compose logs -f event-service
+docker compose logs -f user-service
 ```
 
-The PostgreSQL data volume is preserved by default with `docker compose down`; use `docker compose down -v` only when you want a complete reset.
+To stop the stack:
 
-### Option 2: Run the Angular frontend
+```bash
+docker compose down
+```
 
-In a separate terminal:
+To fully reset the database and remove persisted data:
+
+```bash
+docker compose down -v
+```
+
+### 2) Start the Angular frontend
+
+In a second terminal:
 
 ```bash
 cd frontend/event-booking-client
@@ -108,13 +117,15 @@ npm install
 npm start
 ```
 
-The Angular dev server will start successfully and should display a local URL such as:
+When Angular finishes starting, it will show a local URL such as:
 
-- **https://localhost:50068** (or another port shown by Angular)
+- **https://localhost:50068**
 
-The frontend is configured to talk to the backend gateway on port `5000`.
+> Note: the frontend uses a self-signed certificate during local development. If your browser warns you about the certificate, accept the warning to continue.
 
-### Service URLs
+The frontend is configured to call the backend gateway on port `5000`.
+
+### 3) Service URLs
 
 | Service | URL |
 |---------|-----|
@@ -125,6 +136,8 @@ The frontend is configured to talk to the backend gateway on port `5000`.
 | **BookingService** | http://localhost:5003 |
 | **PaymentService** | http://localhost:5004 |
 | **PostgreSQL** | localhost:5432 |
+
+> The frontend URL is the one shown by Angular in the terminal. In most cases this will be `https://localhost:50068`.
 
 ---
 
@@ -184,7 +197,7 @@ npm install
 npm start
 ```
 
-Open the Angular dev server URL shown in the terminal (typically `https://localhost:50068`).
+Open the Angular URL shown in the terminal (typically `https://localhost:50068`). If the browser warns about the certificate, accept the warning to continue.
 
 ---
 
@@ -203,6 +216,7 @@ npm start
 ### Notes
 - The frontend is intended to run alongside the backend services.
 - Use the Angular URL shown by the CLI (for example, `https://localhost:50068`) for local development.
+- Accept the self-signed certificate warning when prompted by the browser.
 - The frontend proxy configuration points API calls to the gateway on port `5000`.
 
 ## 📝 Project Structure
