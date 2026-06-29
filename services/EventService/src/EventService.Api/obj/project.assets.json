@@ -3062,11 +3062,11 @@
   "projectFileDependencyGroups": {
     "net10.0": [
       "Contracts >= 1.0.0",
-      "Microsoft.AspNetCore.OpenApi >= 10.0.0-*",
-      "Microsoft.AspNetCore.SpaProxy >= 10.0.0-*",
-      "Microsoft.EntityFrameworkCore >= 10.0.0-*",
-      "Microsoft.EntityFrameworkCore.Design >= 10.0.0-*",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.0-*"
+      "Microsoft.AspNetCore.OpenApi >= 10.0.0",
+      "Microsoft.AspNetCore.SpaProxy >= 10.0.0",
+      "Microsoft.EntityFrameworkCore >= 10.0.0",
+      "Microsoft.EntityFrameworkCore.Design >= 10.0.0",
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 10.0.0"
     ]
   },
   "packageFolders": {
@@ -3118,23 +3118,23 @@
         "dependencies": {
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
-            "version": "[10.0.0-*, )"
+            "version": "[10.0.0, )"
           },
           "Microsoft.AspNetCore.SpaProxy": {
             "target": "Package",
-            "version": "[10.0.0-*, )"
+            "version": "[10.0.0, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
-            "version": "[10.0.0-*, )"
+            "version": "[10.0.0, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
-            "version": "[10.0.0-*, )"
+            "version": "[10.0.0, )"
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
-            "version": "[10.0.0-*, )"
+            "version": "[10.0.0, )"
           }
         },
         "imports": [
