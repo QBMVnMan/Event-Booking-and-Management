@@ -1,8 +1,8 @@
 # Event Booking and Management Platform
-**Modern microservices-based event ticketing platform inspired by Ticketbox.vn**
+**A full-stack event booking system with a working Angular frontend and .NET 10 microservices backend**
 ![.NET Microservices CI](https://github.com/QBMVnMan/Event-Booking-and-Management/actions/workflows/ci.yml/badge.svg)
 
-A full-stack event booking system with .NET 10 microservices backend and Angular 19 frontend.
+This project combines a modern Angular 19 frontend with a secure, routed .NET microservices backend for event discovery, booking, payments, and user auth.
 
 ## 📋 Project Status
 
@@ -68,46 +68,68 @@ npm --version
 
 ---
 
-## 🚀 Quick Start (Recommended: Docker)
+## 🚀 Quick Start
 
-### Step 1: Clone the repository
+### 1) Start the backend services
+
+This runs the API gateway, microservices, and PostgreSQL database:
 
 ```bash
 git clone https://github.com/QBMVnMan/Event-Booking-and-Management.git
 cd Event-Booking-and-Management
-```
-
-### Step 2: Start all services with Docker
-
-Make sure **Docker Desktop is running**, then:
-
-```bash
 docker compose up --build -d
 ```
 
-**Wait 3-6 minutes** for services to initialize; you may see a few restore/build warnings in the first run, but the stack is healthy once the status shows `Up`. Check status:
+Then verify everything is running:
 
 ```bash
 docker compose ps
 ```
 
-You should see all services running (STATUS: Up). Use the following commands if you need to inspect the startup logs or reset the stack:
+If you want to inspect logs:
 
 ```bash
-docker compose ps
 docker compose logs -f postgres
 docker compose logs -f api-gateway
-# Reset everything including PostgreSQL data
-# docker compose down -v
+docker compose logs -f event-service
+docker compose logs -f user-service
 ```
 
-The PostgreSQL data volume is persisted in Docker via `postgres_data`, so the database survives a normal `docker compose down` and only resets when you run `docker compose down -v`.
+To stop the stack:
 
-### Step 3: Access the services
+```bash
+docker compose down
+```
+
+To fully reset the database and remove persisted data:
+
+```bash
+docker compose down -v
+```
+
+### 2) Start the Angular frontend
+
+In a second terminal:
+
+```bash
+cd frontend/event-booking-client
+npm install
+npm start
+```
+
+When Angular finishes starting, it will show a local URL such as:
+
+- **https://localhost:50068**
+
+> Note: the frontend uses a self-signed certificate during local development. If your browser warns you about the certificate, accept the warning to continue.
+
+The frontend is configured to call the backend gateway on port `5000`.
+
+### 3) Service URLs
 
 | Service | URL |
 |---------|-----|
-| **Frontend** | http://localhost:4200 |
+| **Frontend** | https://localhost:50068 |
 | **API Gateway** | http://localhost:5000 |
 | **EventService** | http://localhost:5001 |
 | **UserService** | http://localhost:5002 |
@@ -115,19 +137,7 @@ The PostgreSQL data volume is persisted in Docker via `postgres_data`, so the da
 | **PaymentService** | http://localhost:5004 |
 | **PostgreSQL** | localhost:5432 |
 
-### Step 4: Run the frontend dev server
-
-In a **new terminal**:
-
-```bash
-cd frontend/event-booking-client
-npm install          # install dependencies (first time only)
-npm start            # start Angular dev server (port 4200)
-```
-
-The app opens at **https://127.0.0.1:50068** (or similar high port). Look for `Local:` in the terminal output.
-
-✅ **You're done!** The frontend automatically proxies `/api` calls to the gateway on port 5000.
+> The frontend URL is the one shown by Angular in the terminal. In most cases this will be `https://localhost:50068`.
 
 ---
 
@@ -187,9 +197,27 @@ npm install
 npm start
 ```
 
-Open browser to **http://localhost:4200**
+Open the Angular URL shown in the terminal (typically `https://localhost:50068`). If the browser warns about the certificate, accept the warning to continue.
 
 ---
+
+## 🌐 Frontend
+
+The frontend is a working Angular 19 application that provides the event browsing, detail, and booking UI.
+
+### Frontend setup
+
+```bash
+cd frontend/event-booking-client
+npm install
+npm start
+```
+
+### Notes
+- The frontend is intended to run alongside the backend services.
+- Use the Angular URL shown by the CLI (for example, `https://localhost:50068`) for local development.
+- Accept the self-signed certificate warning when prompted by the browser.
+- The frontend proxy configuration points API calls to the gateway on port `5000`.
 
 ## 📝 Project Structure
 
