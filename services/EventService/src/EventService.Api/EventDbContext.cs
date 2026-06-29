@@ -7,6 +7,7 @@ public class EventDbContext : DbContext
     public EventDbContext(DbContextOptions<EventDbContext> options) : base(options) { }
 
     public DbSet<EventItem> Events { get; set; } = null!;
+    public DbSet<EventService.Api.Data.Entities.Seat> Seats { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
