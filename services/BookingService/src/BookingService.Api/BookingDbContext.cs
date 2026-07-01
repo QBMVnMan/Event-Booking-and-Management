@@ -1,3 +1,4 @@
+using BookingService.Api.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingService.Api;
@@ -7,10 +8,17 @@ public class BookingDbContext : DbContext
     public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options) { }
 
     public DbSet<BookingItem> Bookings { get; set; } = null!;
+    public DbSet<BookingSeat> BookingSeats { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<BookingSeat>()
+            .HasOne(b => b.Booking)
+            .WithMany(b => b.BookingSeats)
+            .HasForeignKey(b => b.BookingId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Seed data
         modelBuilder.Entity<BookingItem>().HasData(
@@ -29,4 +37,6 @@ public class BookingItem
     public string UserId { get; set; } = string.Empty;
     public int Quantity { get; set; }
     public string? Note { get; set; }
+
+    public ICollection<BookingSeat> BookingSeats { get; set; } = new List<BookingSeat>();
 }

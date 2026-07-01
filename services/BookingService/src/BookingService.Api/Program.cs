@@ -1,5 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using BookingService.Api;
+using BookingService.Api.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<BookingDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IReservationService, ReservationService>();
 
 var app = builder.Build();
 
